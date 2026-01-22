@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|c:\\users\\ross_\\documents\\programming\\monogamelibrary\\graphics\\animationatlas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|solutionrelative:graphics\\animationatlas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|c:\\users\\ross_\\documents\\programming\\monogamelibrary\\graphics\\animation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|solutionrelative:graphics\\animation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|c:\\users\\ross_\\documents\\programming\\monogamelibrary\\graphics\\animatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E52B038-7007-E89F-D8DA-A8C72068ADEB}|MonogameLibrary.csproj|solutionrelative:graphics\\animatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AnimationAtlas.cs",
+              "DocumentMoniker": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\AnimationAtlas.cs",
+              "RelativeDocumentMoniker": "Graphics\\AnimationAtlas.cs",
+              "ToolTip": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\AnimationAtlas.cs",
+              "RelativeToolTip": "Graphics\\AnimationAtlas.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T23:22:24.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Animation.cs",
+              "DocumentMoniker": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\Animation.cs",
+              "RelativeDocumentMoniker": "Graphics\\Animation.cs",
+              "ToolTip": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\Animation.cs",
+              "RelativeToolTip": "Graphics\\Animation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T23:22:23.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AnimatedSprite.cs",
+              "DocumentMoniker": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\AnimatedSprite.cs",
+              "RelativeDocumentMoniker": "Graphics\\AnimatedSprite.cs",
+              "ToolTip": "C:\\Users\\ross_\\Documents\\Programming\\MonogameLibrary\\Graphics\\AnimatedSprite.cs",
+              "RelativeToolTip": "Graphics\\AnimatedSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T23:22:19.791Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
