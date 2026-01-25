@@ -8,7 +8,10 @@ namespace MonogameLibrary.Tilemaps
     {
         #region Properties
 
-        public Tileset Tileset;
+        private Tileset _tileset;
+        private TileTypeRegistry _tileRegistry;
+
+
         public Vector2 Position { get; set; }
         public Dictionary<string, TilemapLayer> TilemapLayers { get; }
         public int TileWidth { get; }
@@ -47,7 +50,7 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="rows"></param>
         public Tilemap(Tileset tileset, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
         {
-            Tileset = tileset;
+            _tileset = tileset;
             Position = position;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
@@ -102,6 +105,17 @@ namespace MonogameLibrary.Tilemaps
         #region Utility
 
         /// <summary>
+        /// Register a new tile type to this tilemap
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="info"></param>
+        public void AddTileType(Enum type, TileInfo info)
+        {
+            _tileRegistry.Add(type, info);
+        }
+
+
+        /// <summary>
         /// Add a new layer to the tilemap
         /// </summary>
         /// <param name="name"></param>
@@ -113,7 +127,7 @@ namespace MonogameLibrary.Tilemaps
                 throw new ArgumentException($"Tilemap layer with name {name} already exists");
             }
 
-            TilemapLayer layer = new TilemapLayer(Tileset, name, Position, TileWidth, TileHeight, Columns, Rows);
+            TilemapLayer layer = new TilemapLayer(_tileset, name, Position, TileWidth, TileHeight, Columns, Rows);
             TilemapLayers.Add(name, layer);
         }
 
@@ -172,31 +186,9 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="layer"></param>
-        /// <param name="tileIndex"></param>
-        /// <returns></returns>
-        public Tile GetTile(string layer, int tileIndex)
-        {
-            return TilemapLayers[layer].GetTile(tileIndex);
-        }
-
-
         public Tile GetTile(string layer, int column, int row)
         {
             return TilemapLayers[layer].GetTile(column, row);
-        }
-
-        public T GetTile<T>(string layer, int column, int row) where T : Tile
-        {
-            Tile tile = GetTile(layer, column, row);
-            if (tile is T)
-            {
-                return tile as T;
-            }
-            return null;
         }
 
 

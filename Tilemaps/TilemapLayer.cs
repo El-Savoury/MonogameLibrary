@@ -6,10 +6,10 @@ namespace MonogameLibrary.Tilemaps
     {
         #region Properties
 
-        public Tileset Tileset { get; set; }
+        public TileTypeRegistry TileRegistry { get; set; }
         public string Name { get; }
         public Vector2 Position { get; }
-        public Tile[] Tiles { get; }
+        public Tile[,] Tiles { get; }
         public int TileWidth { get; }
         public int TileHeight { get; }
         public int Columns { get; }
@@ -23,9 +23,9 @@ namespace MonogameLibrary.Tilemaps
 
         #region Init
 
-        public TilemapLayer(Tileset tilset, string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
+        public TilemapLayer(Tileset tileset, string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
         {
-            Tileset = tilset;
+            Tileset = tileset;
             Name = name;
             Position = position;
             TileWidth = tileWidth;
@@ -33,8 +33,7 @@ namespace MonogameLibrary.Tilemaps
             Columns = columns;
             Rows = rows;
 
-            int count = columns * Rows;
-            Tiles = new Tile[count];
+            Tiles = new Tile[columns, rows];
         }
 
         #endregion Init
@@ -76,12 +75,10 @@ namespace MonogameLibrary.Tilemaps
 
                     Tile tile = GetTile(x, y);
 
-                    if (tile != null)
-                    {
-                        TextureRegion region = Tileset.GetTileTexture(tile.TilesetIndex);
-                        Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
-                        region.Draw(spriteBatch, tilePosition, Color.White);
-                    }
+                    TextureRegion region = Tileset.GetTileTexture(.TilesetIndex);
+                    Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
+                    region.Draw(spriteBatch, tilePosition, Color.White);
+
                 }
             }
         }
@@ -96,17 +93,6 @@ namespace MonogameLibrary.Tilemaps
         #region Utility
 
         /// <summary>
-        /// Get the tile at the specified tilemap layer index
-        /// </summary>
-        /// <param name="index">The tilemap index of desired tile</param>
-        /// <returns>Tile at specified index</returns>
-        public Tile GetTile(int index)
-        {
-            return Tiles[index];
-        }
-
-
-        /// <summary>
         /// Get the tile at the specified tilemap layer column and row 
         /// </summary>
         /// <param name="column">The column required tile is in</param>
@@ -114,8 +100,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns>Tile at specified column and row</returns>
         public Tile GetTile(int column, int row)
         {
-            int index = row * Columns + column;
-            return GetTile(index);
+            return Tiles[column, row];
         }
 
 
@@ -127,21 +112,10 @@ namespace MonogameLibrary.Tilemaps
         public Tile GetTile(Vector2 worldPosition)
         {
             Vector2 offset = worldPosition - Position;
-            int column = (int)Math.Floor(offset.X / TileWidth);
-            int row = (int)Math.Floor(offset.Y / TileHeight);
+            int column = (int)(offset.X / TileWidth);
+            int row = (int)(offset.Y / TileHeight);
 
             return GetTile(column, row);
-        }
-
-
-        /// <summary>
-        /// Set the tile at specified index
-        /// </summary>
-        /// <param name="index">Tilemap index</param>
-        /// <param name="tile">Tile to set</param>
-        public void SetTile(int index, Tile tile)
-        {
-            Tiles[index] = tile;
         }
 
 
@@ -153,8 +127,7 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="tile">Tile to set</param>
         public void SetTile(int column, int row, Tile tile)
         {
-            int index = row * Columns + column;
-            SetTile(index, tile);
+            Tiles[column, row] = tile;
         }
 
         #endregion Utility

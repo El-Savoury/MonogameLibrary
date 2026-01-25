@@ -1,22 +1,24 @@
 ﻿namespace MonogameLibrary.Tilemaps
 {
-    public abstract class Tile
+    [Flags]
+    public enum TileFlags : ushort
     {
-        // The index of this tiles texture in a tileset
-        public int TilesetIndex { get; set; }
+        None = 0,
+        FlipHorizontal = 1 << 0,
+        FlipVertical = 1 << 1,
+        FlipDiagonal = 1 << 2,
+    }
 
-        public Tile()
+
+    public struct Tile
+    {
+        public ushort Type;
+        public ushort Flags;
+
+        public Tile(Enum tileType, Enum tileFlags)
         {
+            Type = Convert.ToUInt16(tileType);
+            Flags = Convert.ToUInt16(tileFlags);
         }
-
-
-        public Tile(int tilesetIndex)
-        {
-            TilesetIndex = tilesetIndex;
-        }
-
-
-        public abstract void Update(GameTime gameTime);
-
     }
 }
