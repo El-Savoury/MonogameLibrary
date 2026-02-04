@@ -5,8 +5,9 @@ namespace MonogameLibrary.Tilemaps
     public class TilemapLayer
     {
         #region Properties
+        private TileTypeRegistry _tileTypeRegistry;
 
-        public TileTypeRegistry TileRegistry { get; set; }
+        public Tileset Tileset { get; set; }
         public string Name { get; }
         public Vector2 Position { get; }
         public Tile[,] Tiles { get; }
@@ -23,15 +24,18 @@ namespace MonogameLibrary.Tilemaps
 
         #region Init
 
-        public TilemapLayer(Tileset tileset, string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
+        public TilemapLayer(string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows, Tilemap parent)
         {
-            Tileset = tileset;
             Name = name;
             Position = position;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
             Columns = columns;
             Rows = rows;
+
+            // TODO : Don't do this
+            _tileTypeRegistry = parent.TileRegistry;
+            Tileset = parent.Tileset;
 
             Tiles = new Tile[columns, rows];
         }
@@ -46,13 +50,7 @@ namespace MonogameLibrary.Tilemaps
 
         public void Update(GameTime gameTime)
         {
-            foreach (Tile tile in Tiles)
-            {
-                if (tile != null)
-                {
-                    tile.Update(gameTime);
-                }
-            }
+
         }
 
         #endregion Update
@@ -73,12 +71,11 @@ namespace MonogameLibrary.Tilemaps
                     int tileOffsetX = x * TileWidth;
                     int tileOffsetY = y * TileHeight;
 
-                    Tile tile = GetTile(x, y);
+                    TileInfo info = _tileTypeRegistry.GetInfo(Tiles[x, y].Type);
+                    TextureRegion region = Tileset.GetTileTexture(info.TilesetID);
 
-                    TextureRegion region = Tileset.GetTileTexture(.TilesetIndex);
                     Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
                     region.Draw(spriteBatch, tilePosition, Color.White);
-
                 }
             }
         }

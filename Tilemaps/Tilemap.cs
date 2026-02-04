@@ -1,6 +1,9 @@
-﻿using MonogameLibrary.Maths;
+﻿using MonogameLibrary.Graphics;
+using MonogameLibrary.Maths;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace MonogameLibrary.Tilemaps
 {
@@ -8,10 +11,8 @@ namespace MonogameLibrary.Tilemaps
     {
         #region Properties
 
-        private Tileset _tileset;
-        private TileTypeRegistry _tileRegistry;
-
-
+        public Tileset Tileset;
+        public TileTypeRegistry TileRegistry = new TileTypeRegistry();
         public Vector2 Position { get; set; }
         public Dictionary<string, TilemapLayer> TilemapLayers { get; }
         public int TileWidth { get; }
@@ -50,7 +51,7 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="rows"></param>
         public Tilemap(Tileset tileset, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
         {
-            _tileset = tileset;
+            Tileset = tileset;
             Position = position;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
@@ -109,9 +110,9 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         /// <param name="type"></param>
         /// <param name="info"></param>
-        public void AddTileType(Enum type, TileInfo info)
+        public void AddTileType(Enum type, int tilesetID)
         {
-            _tileRegistry.Add(type, info);
+            TileRegistry.Add(type, tilesetID);
         }
 
 
@@ -127,7 +128,7 @@ namespace MonogameLibrary.Tilemaps
                 throw new ArgumentException($"Tilemap layer with name {name} already exists");
             }
 
-            TilemapLayer layer = new TilemapLayer(_tileset, name, Position, TileWidth, TileHeight, Columns, Rows);
+            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Columns, Rows, this);
             TilemapLayers.Add(name, layer);
         }
 
@@ -208,6 +209,13 @@ namespace MonogameLibrary.Tilemaps
         {
             TilemapLayers[tilemapLayer.ToString()].SetTile(row, column, tile);
         }
+
+
+        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
+        {
+            TilemapLayers[tilemapLayer].SetTile(row, column, tile);
+        }
+
 
 
         //public Tile[] GetTilesInRect(RectF rect)

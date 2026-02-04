@@ -1,11 +1,10 @@
 ﻿using MonogameLibrary.Graphics;
-using System.Net.Http.Headers;
 
 namespace MonogameLibrary.Tilemaps
 {
     public class Tileset
     {
-        private readonly TextureRegion[] tileTextures;
+        private readonly TextureRegion[] _tileTextures;
 
         public int TileWidth { get; }
         public int TileHeight { get; }
@@ -21,24 +20,24 @@ namespace MonogameLibrary.Tilemaps
             Columns = textureRegion.Width / TileWidth;
             Rows = textureRegion.Height / TileHeight;
 
-            tileTextures = new TextureRegion[Count];
+            _tileTextures = new TextureRegion[Count];
 
             for (int i = 0; i < Count; i++)
             {
                 int x = i % Columns * TileWidth;
                 int y = i / Columns * TileHeight;
 
-                int regionPosX = textureRegion.SourceRectangle.X + x + padding;
-                int regionPosY = textureRegion.SourceRectangle.Y + y + padding;
+                int regionX = textureRegion.SourceRectangle.X + x + padding;
+                int regionY = textureRegion.SourceRectangle.Y + y + padding;
 
-                tileTextures[i] = new TextureRegion(textureRegion.Texture, regionPosX, regionPosY, tileWidth, tileHeight);
+                _tileTextures[i] = new TextureRegion(textureRegion.Texture, regionX, regionY, tileWidth, tileHeight);
             }
         }
 
 
         public TextureRegion GetTileTexture(int index)
         {
-            return tileTextures[index];
+            return _tileTextures[index];
         }
 
 
@@ -47,6 +46,5 @@ namespace MonogameLibrary.Tilemaps
             int index = row * Columns + column;
             return GetTileTexture(index);
         }
-
     }
 }

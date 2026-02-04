@@ -2,7 +2,7 @@
 
 namespace MonogameLibrary.Tilemaps
 {
-    public abstract class AnimatedTile : Tile
+    public abstract class AnimatedTile 
     {
         private int[] tileIndexes;
         private readonly Animation animation;
@@ -31,12 +31,12 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        public override void Update(GameTime gameTime)
-        {
-            AnimationController.Update(gameTime);
+        //public override void Update(GameTime gameTime)
+        //{
+        //    AnimationController.Update(gameTime);
 
-            int animFrameIndex = AnimationController.CurrentFrameIndex;
-            TilesetIndex = tileIndexes[animFrameIndex];
-        }
+        //    int animFrameIndex = AnimationController.CurrentFrameIndex;
+        //    TilesetIndex = tileIndexes[animFrameIndex];
+        //}
     }
 }

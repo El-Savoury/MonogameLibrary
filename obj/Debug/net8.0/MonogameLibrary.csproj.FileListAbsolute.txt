@@ -22,3 +22,4 @@ C:\Users\ross_\Documents\Programming\MonogameLibrary\bin\Debug\net8.0\MonogameLi
 C:\Users\ross_\Documents\Programming\MonogameLibrary\bin\Debug\net8.0\MonogameLibrary.dll
 C:\Users\ross_\Documents\Programming\MonogameLibrary\bin\Debug\net8.0\MonogameLibrary.pdb
 C:\Users\ross_\Documents\Programming\MonogameLibrary\obj\Debug\net8.0\ref\MonogameLibrary.dll
+C:\Users\ross_\Documents\Programming\MonogameLibrary\obj\Debug\net8.0\MonogameLibrary.sourcelink.json

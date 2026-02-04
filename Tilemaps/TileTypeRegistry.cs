@@ -5,17 +5,18 @@
     /// </summary>
     public class TileTypeRegistry
     {
-        private Dictionary<Enum, TileInfo> _tileTypes = [];
+        private Dictionary<ushort, TileInfo> _tileTypes = [];
 
 
         /// <summary>
         /// Register a new tile type
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="info"></param>
-        public void Add(Enum type, TileInfo info)
+        /// <param name="tileType"></param>
+        /// <param name="tileInfo"></param>
+        public void Add(Enum tileType, int tilesetID)
         {
-            _tileTypes.Add(type, info);
+            TileInfo info = new TileInfo(tilesetID);
+            _tileTypes.Add(Convert.ToUInt16(tileType), info);
         }
 
 
@@ -24,7 +25,7 @@
         /// </summary>
         /// <param name="tileType">Tile type to get info about</param>
         /// <returns>Tile info for specified tile type</returns>
-        public TileInfo GetTileInfo(Enum tileType)
+        public TileInfo GetInfo(ushort tileType)
         {
             return _tileTypes[tileType];
         }

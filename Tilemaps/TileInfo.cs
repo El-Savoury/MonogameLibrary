@@ -1,9 +1,15 @@
-﻿namespace MonogameLibrary.Tilemaps
+﻿using MonogameLibrary.Graphics;
+
+namespace MonogameLibrary.Tilemaps
 {
     public class TileInfo
     {
-        uint TilesetIndex { get; set; }
+        public int TilesetID { get; set; }
+        public List<AnimationFrame> AnimationFrames { get; set; }
 
-        public Dictionary<string, object> Properties = [];
+        public TileInfo(int tilesetID)
+        {
+            TilesetID = tilesetID;
+        }
     }
 }
