@@ -17,11 +17,11 @@ namespace MonogameLibrary.Tilemaps
         public Dictionary<string, TilemapLayer> TilemapLayers { get; }
         public int TileWidth { get; }
         public int TileHeight { get; }
-        public int Columns { get; }
-        public int Rows { get; }
-        public int Count => Columns * Rows;
-        public int WidthInPixels => Columns * TileWidth;
-        public int HeightInPixels => Rows * TileHeight;
+        public int Width { get; }
+        public int Height { get; }
+        public int Count => Width * Height;
+        public int WidthInPixels => Width * TileWidth;
+        public int HeightInPixels => Height * TileHeight;
 
         #endregion Properties
 
@@ -55,8 +55,8 @@ namespace MonogameLibrary.Tilemaps
             Position = position;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
-            Columns = columns;
-            Rows = rows;
+            Width = columns;
+            Height = rows;
 
             TilemapLayers = new Dictionary<string, TilemapLayer>();
         }
@@ -128,7 +128,7 @@ namespace MonogameLibrary.Tilemaps
                 throw new ArgumentException($"Tilemap layer with name {name} already exists");
             }
 
-            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Columns, Rows, this);
+            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Width, Height, this);
             TilemapLayers.Add(name, layer);
         }
 
@@ -202,6 +202,19 @@ namespace MonogameLibrary.Tilemaps
         public Tile GetTile(string layer, Vector2 worldPos)
         {
             return TilemapLayers[layer].GetTile(worldPos);
+        }
+
+        public Vector2 GetTileWorldPos(int x, int y)
+        {
+            return new Vector2(Position.X + x * TileWidth, Position.Y + y * TileHeight);
+        }
+
+        public Point GetIndexfromWorldPos(Vector2 worldPos)
+        {
+            int xPosOffset = (int)(worldPos.X - Position.X);
+            int YPosOffset = (int)(worldPos.Y - Position.Y);
+
+            return new Point(xPosOffset / TileWidth, YPosOffset / TileWidth);
         }
 
 
