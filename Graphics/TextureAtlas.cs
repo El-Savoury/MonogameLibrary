@@ -13,8 +13,7 @@ namespace MonogameLibrary.Graphics
 
         public Texture2D Texture { get; set; }
 
-        private readonly List<TextureRegion> regionsByIndex = [];
-        private readonly Dictionary<string, TextureRegion> regionsByName = [];
+        private readonly Dictionary<string, TextureRegion> _regions = [];
 
         #endregion Members
 
@@ -100,9 +99,7 @@ namespace MonogameLibrary.Graphics
         public void AddRegion(string name, int x, int y, int width, int height)
         {
             TextureRegion region = new TextureRegion(Texture, x, y, width, height);
-
-            regionsByName.Add(name, region);
-            regionsByIndex.Add(region);
+            _regions.Add(name, region);
         }
 
 
@@ -120,122 +117,73 @@ namespace MonogameLibrary.Graphics
         }
 
 
-        /// <summary>
-        /// Add multiple regions
-        /// </summary>
-        /// <remarks>
-        /// Assumes all regions have the specified width and height.
-        /// Regions are added left to right, top to bottom.
-        /// Each region name is appended by it's index i.e. 'name0', 'name1' etc.
-        /// </remarks>
-        /// <param name="name">The name for these regions</param>
-        /// <param name="startX">The x index of first region to add</param>
-        /// <param name="startY">The y index of first region</param>
-        /// <param name="regionWidth">Region width in pixels</param>
-        /// <param name="regionHeight">Region height in pixels</param>
-        /// <param name="regionsToAdd">The total number of regions to add</param>
-        public void AddRegions(string name, int startX, int startY, int regionWidth, int regionHeight, int regionsToAdd)
-        {
-            int atlasColumns = Texture.Width / regionWidth;
-            int atlasRows = Texture.Height / regionHeight;
+        ///// <summary>
+        ///// Add multiple regions
+        ///// </summary>
+        ///// <remarks>
+        ///// Assumes all regions have the specified width and height.
+        ///// Regions are added left to right, top to bottom.
+        ///// Each region name is appended by it's index i.e. 'name0', 'name1' etc.
+        ///// </remarks>
+        ///// <param name="name">The name for these regions</param>
+        ///// <param name="startX">The x index of first region to add</param>
+        ///// <param name="startY">The y index of first region</param>
+        ///// <param name="regionWidth">Region width in pixels</param>
+        ///// <param name="regionHeight">Region height in pixels</param>
+        ///// <param name="regionsToAdd">The total number of regions to add</param>
+        //public void AddRegions(string name, int startX, int startY, int regionWidth, int regionHeight, int regionsToAdd)
+        //{
+        //    int atlasColumns = Texture.Width / regionWidth;
+        //    int atlasRows = Texture.Height / regionHeight;
 
-            for (int i = 0; i < regionsToAdd; i++)
-            {
-                int xIndex = startX + i;
-                int yIndex = startY + i;
+        //    for (int i = 0; i < regionsToAdd; i++)
+        //    {
+        //        int xIndex = startX + i;
+        //        int yIndex = startY + i;
 
-                if (yIndex > atlasRows) { break; }
+        //        if (yIndex > atlasRows) { break; }
 
-                if (xIndex > atlasColumns)
-                {
-                    xIndex = 0;
-                    yIndex++;
-                }
+        //        if (xIndex > atlasColumns)
+        //        {
+        //            xIndex = 0;
+        //            yIndex++;
+        //        }
 
-                TextureRegion region = new TextureRegion(Texture, xIndex * regionWidth, yIndex * regionHeight, regionWidth, regionHeight);
-                string regionName = name + i;
+        //        TextureRegion region = new TextureRegion(Texture, xIndex * regionWidth, yIndex * regionHeight, regionWidth, regionHeight);
+        //        string regionName = name + i;
 
-                regionsByName.Add(regionName, region);
-            }
-        }
+        //        _regions.Add(regionName, region);
+        //    }
+        //}
 
 
         public bool RemoveRegion(string name)
         {
-            return regionsByName.Remove(name);
+            return _regions.Remove(name);
         }
 
         public bool RemoveRegion(Enum regionEnum)
         {
-            return regionsByName.Remove(regionEnum.ToString());
+            return _regions.Remove(regionEnum.ToString());
         }
 
 
         public TextureRegion GetRegion(string name)
         {
-            return regionsByName[name];
+            return _regions[name];
         }
-
-
-        public TextureRegion GetRegion(int index)
-        {
-            return regionsByIndex[index];
-        }
-
 
         public TextureRegion GetRegion(Enum regionEnum)
         {
-            return regionsByName[regionEnum.ToString()];
+            return _regions[regionEnum.ToString()];
         }
 
 
         public void Clear()
         {
-            regionsByName.Clear();
-            regionsByIndex.Clear();
+            _regions.Clear();
         }
 
         #endregion Utility
-
-
-
-
-
-
-        #region Factory
-
-        /// <summary>
-        /// Creates a texture atlas divided into equally sized texture regions e.g. a tilemap
-        /// </summary>
-        /// <param name="name">Name for the regions in this atlas</param>
-        /// <param name="texture">Texture to create atlas from</param>
-        /// <param name="regionWidth">Region width in pixels</param>
-        /// <param name="regionHeight">Region height in pixels</param>
-        /// <param name="regionPadding">Padding between regions in pixels</param>
-        /// <returns>New texture atlas containing equally sized texture regions</returns>
-        public static TextureAtlas Create(string name, Texture2D texture, int regionWidth, int regionHeight, int regionPadding = 0)
-        {
-            TextureAtlas atlas = new TextureAtlas(texture);
-
-            int index = 0;
-            int columns = texture.Width / regionWidth + regionPadding;
-            int rows = texture.Height / regionHeight + regionPadding;
-
-            for (int y = 0; y < rows; y++)
-            {
-                for (int x = 0; x < columns; x++)
-                {
-                    int regionX = (regionWidth + regionPadding) * x;
-                    int regionY = (regionHeight + regionPadding) * y;
-
-                    string regionName = name + index++;
-                    atlas.AddRegion(regionName, regionX, regionY, regionWidth, regionHeight);
-                }
-            }
-
-            return atlas;
-        }
-
-        #endregion Factory
     }
 }
