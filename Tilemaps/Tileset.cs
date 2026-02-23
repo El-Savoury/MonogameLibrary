@@ -6,6 +6,7 @@ namespace MonogameLibrary.Tilemaps
     {
         private readonly TextureRegion[] _tileTextures;
 
+        public string Name { get; }
         public int TileWidth { get; }
         public int TileHeight { get; }
         public int Columns { get; }
@@ -13,7 +14,7 @@ namespace MonogameLibrary.Tilemaps
         public int Count => Columns * Rows;
 
 
-        public Tileset(TextureRegion textureRegion, int tileWidth, int tileHeight, int padding = 0)
+        public Tileset(string name, TextureRegion textureRegion, int tileWidth, int tileHeight, int padding = 0)
         {
             TileWidth = tileWidth;
             TileHeight = tileHeight;
@@ -30,7 +31,7 @@ namespace MonogameLibrary.Tilemaps
                 int regionX = textureRegion.SourceRectangle.X + x + padding;
                 int regionY = textureRegion.SourceRectangle.Y + y + padding;
 
-                _tileTextures[i] = new TextureRegion(textureRegion.Texture, regionX, regionY, tileWidth, tileHeight);
+                _tileTextures[i] = new TextureRegion(name, textureRegion.Texture, regionX, regionY, tileWidth, tileHeight);
             }
         }
 

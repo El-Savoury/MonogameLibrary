@@ -1,17 +1,14 @@
-﻿using MonogameLibrary.Input;
-using MonogameLibrary.Utilities;
+﻿using MonogameLibrary.Assets;
+using MonogameLibrary.Input;
 
 namespace MonogameLibrary
 {
     /// <summary>
     /// Entry point into the program
     /// </summary>
-    /// <remarks>
-    /// Contains a set of basic game window utilities
-    /// </remarks>
     public class Core : Game
     {
-        internal static Core self;
+        internal static Core _self;
 
         public static SpriteBatch SpriteBatch { get; private set; }
         public static GraphicsDeviceManager Graphics { get; private set; }
@@ -31,13 +28,13 @@ namespace MonogameLibrary
         public Core(string title, int width, int height, bool fullscreen)
         {
             // Ensure that multiple cores are not created
-            if (self != null)
+            if (_self != null)
             {
                 throw new InvalidOperationException($"Only a single Core instance can be created");
             }
 
             // Store reference to self for global member access
-            self = this;
+            _self = this;
 
             Graphics = new GraphicsDeviceManager(this);
 
@@ -58,10 +55,10 @@ namespace MonogameLibrary
 
         protected override void Initialize()
         {
-            InputManager.I.Init();
-            FontManager.I.Init(Content);
-
             base.Initialize();
+
+            InputManager.I.Init();
+            AssetManager.I.Init(Content);
 
             GraphicsDevice = base.GraphicsDevice;
             SpriteBatch = new SpriteBatch(GraphicsDevice);

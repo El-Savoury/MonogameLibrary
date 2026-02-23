@@ -6,6 +6,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Graphics\NewFolder\**" />
+	  <EmbeddedResource Remove="Graphics\NewFolder\**" />
+	  <None Remove="Graphics\NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>

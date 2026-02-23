@@ -1,6 +1,7 @@
 ﻿using MonogameLibrary.Maths;
+using MonogameLibrary.Utilities;
 
-namespace MonogameLibrary.Utilities
+namespace MonogameLibrary.Collisions
 {
     /// <summary>
     /// Results of a ray collision

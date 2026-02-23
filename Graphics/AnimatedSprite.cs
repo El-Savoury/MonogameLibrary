@@ -2,24 +2,17 @@
 {
     public class AnimatedSprite : Sprite
     {
-        private readonly Animation animation;
+        private Spritesheet _spritesheet;
+        private Animation _animation;
+
         public AnimationController AnimationController { get; private set; }
 
 
-        public AnimatedSprite() { }
-
-
-        public AnimatedSprite(Animation anim)
+        public AnimatedSprite(Spritesheet spritesheet, string defaultAnimation)
         {
-            animation = anim;
-            AnimationController = new AnimationController(animation);
-        }
-
-
-        public AnimatedSprite(Spritesheet atlas, string animationName)
-        {
-            animation = atlas.GetAnimation(animationName);
-            AnimationController = new AnimationController(animation);
+            _spritesheet = spritesheet;
+            _animation = spritesheet.GetAnimation(defaultAnimation);
+            AnimationController = new AnimationController(_animation);
         }
 
 
@@ -27,6 +20,13 @@
         {
             AnimationController.Update(gameTime);
             Region = AnimationController.CurrentFrame.Region;
+        }
+
+
+        public void SetAnimation(string animationName)
+        {
+            Animation animation = _spritesheet.GetAnimation(animationName);
+            AnimationController = new AnimationController(animation);
         }
     }
 }

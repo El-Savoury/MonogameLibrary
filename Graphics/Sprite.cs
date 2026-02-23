@@ -51,31 +51,5 @@
         {
             Origin = new Vector2(Region.Width, Region.Height) * 0.5f;
         }
-
-
-
-
-        //#region Factory
-
-        //public static Sprite Create(TextureRegion region)
-        //{
-        //    return new Sprite(region);
-        //}
-
-
-        //public static Sprite Create(TextureAtlas atlas, int regionIndex)
-        //{
-        //    TextureRegion region = atlas.GetRegion(regionIndex);
-        //    return new Sprite(region);
-        //}
-
-
-        //public static Sprite Create(TextureAtlas atlas, string regionName)
-        //{
-        //    TextureRegion region = atlas.GetRegion(regionName);
-        //    return new Sprite(region);
-        //}
-
-        //#endregion Factory
     }
 }

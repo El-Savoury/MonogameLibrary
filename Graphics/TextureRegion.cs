@@ -4,6 +4,7 @@ namespace MonogameLibrary.Graphics
 {
     public class TextureRegion
     {
+        public string Name { get; }
         public Texture2D Texture { get; set; }
         public Rectangle SourceRectangle { get; set; }
        
@@ -17,8 +18,9 @@ namespace MonogameLibrary.Graphics
         public TextureRegion() { }
 
 
-        public TextureRegion(Texture2D texture, int x, int y, int width, int height)
+        public TextureRegion(string name, Texture2D texture, int x, int y, int width, int height)
         {
+            Name = name;
             Texture = texture;
             SourceRectangle = new Rectangle(x, y, width, height);
         }

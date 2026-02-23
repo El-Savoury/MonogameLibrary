@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Data.Common;
+using System.Reflection.Metadata;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -13,7 +16,8 @@ namespace MonogameLibrary.Graphics
 
         public Texture2D Texture { get; set; }
 
-        private readonly Dictionary<string, TextureRegion> _regions = [];
+        private readonly List<TextureRegion> _regionsByIndex = [];
+        private readonly Dictionary<string, TextureRegion> _regionsByName = [];
 
         #endregion Members
 
@@ -80,6 +84,42 @@ namespace MonogameLibrary.Graphics
             }
         }
 
+
+        /// <summary>
+        /// Create a texture atlas where all regions are the same size
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="texture"></param>
+        /// <param name="regionWidth"></param>
+        /// <param name="regionHeight"></param>
+        /// <param name="padding"></param>
+        /// <returns></returns>
+        public static TextureAtlas FromGrid(string name, Texture2D texture, int regionWidth, int regionHeight, int padding = 0)
+        {
+            TextureAtlas atlas = new TextureAtlas(texture);
+
+            int columns = texture.Width / regionWidth;
+            int rows = texture.Height / regionHeight;
+
+            int count = columns * rows;
+
+            for (int i = 0; i < count; i++)
+            {
+                int x = i % columns * regionHeight;
+                int y = i / columns * regionHeight;
+
+                int regionX = x + padding;
+                int regionY = y + padding;
+
+                string regionName = "name" + i;
+
+                TextureRegion region = new TextureRegion(name, texture, regionX, regionY, regionWidth, regionHeight);
+                atlas.AddRegion(regionName, region);
+            }
+
+            return atlas;
+        }
+
         #endregion Init
 
 
@@ -87,6 +127,13 @@ namespace MonogameLibrary.Graphics
 
 
         #region Utility
+
+        private void AddRegion(string name, TextureRegion region)
+        {
+            _regionsByName.Add(name, region);
+            _regionsByIndex.Add(region);
+        }
+
 
         /// <summary>
         /// Add a region to the texture atlas
@@ -98,8 +145,8 @@ namespace MonogameLibrary.Graphics
         /// <param name="height">Height of region in pixels</param>
         public void AddRegion(string name, int x, int y, int width, int height)
         {
-            TextureRegion region = new TextureRegion(Texture, x, y, width, height);
-            _regions.Add(name, region);
+            TextureRegion region = new TextureRegion(name, Texture, x, y, width, height);
+            AddRegion(name, region);
         }
 
 
@@ -117,71 +164,50 @@ namespace MonogameLibrary.Graphics
         }
 
 
-        ///// <summary>
-        ///// Add multiple regions
-        ///// </summary>
-        ///// <remarks>
-        ///// Assumes all regions have the specified width and height.
-        ///// Regions are added left to right, top to bottom.
-        ///// Each region name is appended by it's index i.e. 'name0', 'name1' etc.
-        ///// </remarks>
-        ///// <param name="name">The name for these regions</param>
-        ///// <param name="startX">The x index of first region to add</param>
-        ///// <param name="startY">The y index of first region</param>
-        ///// <param name="regionWidth">Region width in pixels</param>
-        ///// <param name="regionHeight">Region height in pixels</param>
-        ///// <param name="regionsToAdd">The total number of regions to add</param>
-        //public void AddRegions(string name, int startX, int startY, int regionWidth, int regionHeight, int regionsToAdd)
-        //{
-        //    int atlasColumns = Texture.Width / regionWidth;
-        //    int atlasRows = Texture.Height / regionHeight;
-
-        //    for (int i = 0; i < regionsToAdd; i++)
-        //    {
-        //        int xIndex = startX + i;
-        //        int yIndex = startY + i;
-
-        //        if (yIndex > atlasRows) { break; }
-
-        //        if (xIndex > atlasColumns)
-        //        {
-        //            xIndex = 0;
-        //            yIndex++;
-        //        }
-
-        //        TextureRegion region = new TextureRegion(Texture, xIndex * regionWidth, yIndex * regionHeight, regionWidth, regionHeight);
-        //        string regionName = name + i;
-
-        //        _regions.Add(regionName, region);
-        //    }
-        //}
-
-
         public bool RemoveRegion(string name)
         {
-            return _regions.Remove(name);
+            return _regionsByName.Remove(name);
         }
+
 
         public bool RemoveRegion(Enum regionEnum)
         {
-            return _regions.Remove(regionEnum.ToString());
+            return _regionsByName.Remove(regionEnum.ToString());
         }
 
 
         public TextureRegion GetRegion(string name)
         {
-            return _regions[name];
+            return _regionsByName[name];
         }
+
 
         public TextureRegion GetRegion(Enum regionEnum)
         {
-            return _regions[regionEnum.ToString()];
+            return _regionsByName[regionEnum.ToString()];
+        }
+
+
+        public TextureRegion GetRegion(int index)
+        {
+            return _regionsByIndex[index];
         }
 
 
         public void Clear()
         {
-            _regions.Clear();
+            _regionsByName.Clear();
+        }
+
+
+        public int GetRegionIndex(string name)
+        {
+            for (int i = 0; i < _regionsByIndex.Count; i++)
+            {
+                if (_regionsByIndex[i].Name == name) { return i; }
+            }
+
+            return -1;
         }
 
         #endregion Utility
