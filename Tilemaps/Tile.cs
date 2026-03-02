@@ -14,12 +14,12 @@
 
     public struct Tile
     {
-        public ushort Type;
+        public Enum Type;
         public ushort Flags;
 
         public Tile(Enum tileType/*, Enum tileFlags*/)
         {
-            Type = Convert.ToUInt16(tileType);
+            Type = tileType;
             //Flags = Convert.ToUInt16(tileFlags);
         }
     }
