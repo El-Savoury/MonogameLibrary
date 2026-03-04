@@ -28,7 +28,7 @@ namespace MonogameLibrary.Graphics
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color colour)
         {
-            Draw2D.I.DrawTexturePart(spriteBatch, Texture, position, SourceRectangle);
+            Draw2D.I.DrawTexturePart(spriteBatch, Texture, position, SourceRectangle, colour);
         }
     }
 }

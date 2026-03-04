@@ -169,18 +169,18 @@ namespace MonogameLibrary.Utilities
         /// <summary>
         /// Draw part of a texture defined by a source rect
         /// </summary>
-        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect)
+        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, Color colour)
         {
-            spriteBatch.Draw(texture, position, sourceRect, Color.White);
+            spriteBatch.Draw(texture, position, sourceRect, colour);
         }
 
 
         /// <summary>
         /// Draw part of a texture defined by a source rect at specified scale
         /// </summary>
-        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, float scale)
+        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, float scale , Color colour)
         {
-            DrawTexture(spriteBatch, texture, position, sourceRect, Color.White, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0.0f);
+            DrawTexture(spriteBatch, texture, position, sourceRect, colour, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0.0f);
         }
 
 
