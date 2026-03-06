@@ -204,12 +204,12 @@ namespace MonogameLibrary.Tilemaps
             return TilemapLayers[layer].GetTile(worldPos);
         }
 
-        public Vector2 GetTileWorldPos(int x, int y)
+        public Vector2 IndexToWorldPos(int x, int y)
         {
             return new Vector2(Position.X + x * TileWidth, Position.Y + y * TileHeight);
         }
 
-        public Point GetIndexfromWorldPos(Vector2 worldPos)
+        public Point WorldPosToIndex(Vector2 worldPos)
         {
             int xPosOffset = (int)(worldPos.X - Position.X);
             int YPosOffset = (int)(worldPos.Y - Position.Y);
