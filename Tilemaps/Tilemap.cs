@@ -11,10 +11,9 @@ namespace MonogameLibrary.Tilemaps
     {
         #region Properties
 
-        public Tileset Tileset;
-        public TileTypeRegistry TileRegistry = new TileTypeRegistry();
-        public Vector2 Position { get; set; }
+        public Tileset Tileset { get; }
         public Dictionary<string, TilemapLayer> TilemapLayers { get; }
+        public Vector2 Position { get; set; }
         public int TileWidth { get; }
         public int TileHeight { get; }
         public int Width { get; }
@@ -22,6 +21,8 @@ namespace MonogameLibrary.Tilemaps
         public int Count => Width * Height;
         public int WidthInPixels => Width * TileWidth;
         public int HeightInPixels => Height * TileHeight;
+
+        public TileTypeRegistry TileRegistry = new TileTypeRegistry();
 
         #endregion Properties
 
@@ -110,9 +111,9 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         /// <param name="type"></param>
         /// <param name="info"></param>
-        public void AddTileType(Enum type, int tilesetID)
+        public void AddTileType(ushort typeID, int tilesetID)
         {
-            TileRegistry.Add(type, tilesetID);
+            TileRegistry.Add(typeID, tilesetID);
         }
 
 
@@ -230,7 +231,6 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-
         //public Tile[] GetTilesInRect(RectF rect)
         //{
         //    Vector2 topLeftTileIndex = rect.Min;
@@ -240,6 +240,11 @@ namespace MonogameLibrary.Tilemaps
 
 
         //}
+
+        public ushort GetTileType(string tilemapLayer, int row, int column)
+        {
+            return GetTile(tilemapLayer, row, column).Type;
+        }
 
         #endregion Utility
     }

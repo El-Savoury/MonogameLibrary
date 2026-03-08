@@ -5,6 +5,7 @@ namespace MonogameLibrary.Tilemaps
     public class TilemapLayer
     {
         #region Properties
+
         private TileTypeRegistry _tileTypeRegistry;
 
         public Tileset Tileset { get; set; }

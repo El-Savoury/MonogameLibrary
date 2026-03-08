@@ -1,33 +1,24 @@
-﻿namespace MonogameLibrary.Tilemaps
+﻿using System.Net.Sockets;
+
+namespace MonogameLibrary.Tilemaps
 {
     /// <summary>
-    /// Stores information relating to each tile type for fast lookup, rather than every tilemap tile instance holding it's own data.
+    /// Stores information relating to each tile type for fast lookup, rather than every tile instance holding it's own data.
     /// </summary>
     public class TileTypeRegistry
     {
-        private Dictionary<Enum, TileInfo> _tileTypes = [];
+        private Dictionary<ushort, TileInfo> _tileTypes = [];
 
-
-        /// <summary>
-        /// Register a new tile type
-        /// </summary>
-        /// <param name="tileType"></param>
-        /// <param name="tileInfo"></param>
-        public void Add(Enum tileType, int tilesetID)
+        public void Add(ushort ID, int tilesetID)
         {
             TileInfo info = new TileInfo(tilesetID);
-            _tileTypes.Add(tileType, info);
+            _tileTypes.Add(ID, info);
         }
 
 
-        /// <summary>
-        /// Get the information relevant to a tile type
-        /// </summary>
-        /// <param name="tileType">Tile type to get info about</param>
-        /// <returns>Tile info for specified tile type</returns>
-        public TileInfo GetInfo(Enum tileType)
+        public TileInfo GetInfo(ushort ID)
         {
-            return _tileTypes[tileType];
+            return _tileTypes[ID];
         }
     }
 }
