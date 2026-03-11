@@ -188,7 +188,7 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        public Tile GetTile(string layer, int column, int row)
+        public Tile GetTile(int column, int row, string layer = "defaultLayer")
         {
             return TilemapLayers[layer].GetTile(column, row);
         }
@@ -241,9 +241,9 @@ namespace MonogameLibrary.Tilemaps
 
         //}
 
-        public ushort GetTileType(string tilemapLayer, int row, int column)
+        public ushort GetTileType(int row, int column, string tilemapLayer)
         {
-            return GetTile(tilemapLayer, row, column).Type;
+            return GetTile(row, column, tilemapLayer).Type;
         }
 
         #endregion Utility

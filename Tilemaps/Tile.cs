@@ -9,11 +9,11 @@ namespace MonogameLibrary.Tilemaps
         public ushort Type = 0;
         public uint Flags = 0;
 
-        public CardinalDirection Rotation
+        public CardinalDir Rotation
         {
             get
             {
-                return (CardinalDirection)(Flags & ROTATION_MASK);
+                return (CardinalDir)(Flags & ROTATION_MASK);
             }
             set
             {
@@ -23,10 +23,17 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        public Tile(ushort typeID, CardinalDirection rotation = 0)
+        public Tile(ushort typeID, CardinalDir rotation = 0)
         {
             Type = typeID;
             Rotation = rotation;
         }
+
+
+        //public SpriteEffect GetDrawDir() 
+        //{
+
+
+        //} 
     }
 }
