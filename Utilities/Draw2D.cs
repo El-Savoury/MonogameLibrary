@@ -120,49 +120,11 @@ namespace MonogameLibrary.Utilities
 
 
         /// <summary>
-        /// Draw texture at Rectangle position
+        /// Draw texture with all render options
         /// </summary>
-        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, Rectangle destinationRect)
+        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, Vector2 pos, Color colour, float alpha, float roation, Vector2 origin, float scale, SpriteEffects effect, float depth)
         {
-            spriteBatch.Draw(texture, destinationRect, Color.White);
-        }
-
-
-        /// <summary>
-        /// Draw texture at RectF position
-        /// </summary>
-        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, RectF destinationRect)
-        {
-            Rectangle rect = destinationRect.ToRectangle;
-            spriteBatch.Draw(texture, rect, Color.White);
-        }
-
-
-        /// <summary>
-        /// Draw texture with specified scale
-        /// </summary>
-        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, float scale)
-        {
-            DrawTexture(spriteBatch, texture, position, null, Color.White, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0.0f);
-        }
-
-
-        /// <summary>
-        /// Draw texture with specified opacity
-        /// </summary>
-        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color colour, float alpha)
-        {
-            Color drawColour = colour * alpha;
-            DrawTexture(spriteBatch, texture, position, null, drawColour, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
-        }
-
-
-        /// <summary>
-        /// Draw texture with all options
-        /// </summary>
-        public void DrawTexture(SpriteBatch spriteBatch, Texture2D texture, Vector2 pos, Rectangle? sourceRect, Color colour, float roation, Vector2 origin, float scale, SpriteEffects effect, float depth)
-        {
-            spriteBatch.Draw(texture, pos, sourceRect, colour, roation, origin, scale, effect, depth);
+            spriteBatch.Draw(texture, pos, null, colour * alpha, roation, origin, scale, effect, depth);
         }
 
 
@@ -176,21 +138,21 @@ namespace MonogameLibrary.Utilities
 
 
         /// <summary>
-        /// Draw part of a texture defined by a source rect at specified scale
+        /// Draw part of a texture defined by a source rect with all render options
         /// </summary>
-        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, float scale , Color colour)
+        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, Color colour, float alpha, float rotation, Vector2 origin, float scale, SpriteEffects effects, float depth)
         {
-            DrawTexture(spriteBatch, texture, position, sourceRect, colour, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(texture, position, sourceRect, colour * alpha, rotation, origin, scale, effects, depth);
         }
 
 
+
         /// <summary>
-        /// Draw part of a texture defined by a source rect at specified opacity
+        /// Draw part of a texture defined by a source rect with all render options
         /// </summary>
-        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, Color colour, float alpha)
+        public void DrawTexturePart(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRect, Color colour, float alpha, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float depth)
         {
-            Color col = colour * alpha;
-            DrawTexture(spriteBatch, texture, position, sourceRect, col, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(texture, position, sourceRect, colour * alpha, rotation, origin, scale, effects, depth);
         }
 
 

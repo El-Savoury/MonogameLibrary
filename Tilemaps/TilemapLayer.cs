@@ -1,4 +1,6 @@
 ﻿using MonogameLibrary.Graphics;
+using MonogameLibrary.Input;
+using MonogameLibrary.Utilities;
 
 namespace MonogameLibrary.Tilemaps
 {
@@ -51,7 +53,6 @@ namespace MonogameLibrary.Tilemaps
 
         public void Update(GameTime gameTime)
         {
-
         }
 
         #endregion Update
@@ -69,14 +70,34 @@ namespace MonogameLibrary.Tilemaps
             {
                 for (int y = 0; y < Rows; y++)
                 {
-                    int tileOffsetX = x * TileWidth;
-                    int tileOffsetY = y * TileHeight;
-
                     TileInfo info = _tileTypeRegistry.GetInfo(Tiles[x, y].Type);
                     TextureRegion region = Tileset.GetTileTexture(info.TilesetID);
 
+                    float rotation = 0;
+
+                    switch (Tiles[x, y].Rotation)
+                    {
+                        case CardinalDir.Up:
+                            rotation = 0;
+                            break;
+                        case CardinalDir.Right:
+                            rotation = 90;
+                            break;
+                        case CardinalDir.Down:
+                            rotation = 180;
+                            break;
+                        case CardinalDir.Left:
+                            rotation = 270;
+                            break;
+                    }
+
+                    int tileOffsetX = x * TileWidth;
+                    int tileOffsetY = y * TileHeight;
                     Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
-                    region.Draw(spriteBatch, tilePosition, Color.White);
+                    Vector2 tileOrigin = new Vector2(TileWidth, TileHeight) * 0.5f;
+
+                    //  region.Draw(spriteBatch, tilePosition, Color.White);
+                    region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, MathHelper.ToRadians(rotation), tileOrigin, 1.0f, SpriteEffects.None, 1.0f);
                 }
             }
         }
