@@ -144,8 +144,8 @@
         /// </summary>
         public void Play()
         {
-            int statFrameIndex = IsReversed ? TotalNumOfFrames : 0;
-            Play(statFrameIndex);
+            int startFrameIndex = IsReversed ? TotalNumOfFrames : 0;
+            Play(startFrameIndex);
         }
 
 

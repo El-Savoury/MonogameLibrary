@@ -151,25 +151,38 @@
         }
 
 
-        //public void CreateAnimation(string animationName, List<AnimationFrame> frames, bool isReversed, bool isPingPong, bool isLooping)
-        //{
-        //    Animation animation = new Animation(frames, isReversed, isPingPong, isLooping);
-        //    animations.Add(animationName, animation);
-        //}
+        public void AddAnimation(string name, TimeSpan frameDrawTime, bool isLooping, params int[] regionIndexes)
+        {
+            List<AnimationFrame> frames = new List<AnimationFrame>();
+
+            foreach (int index in regionIndexes)
+            {
+                AnimationFrame frame = new AnimationFrame(TextureAtlas.GetRegion(index), frameDrawTime);
+                frames.Add(frame);
+            }
+
+            AddAnimation(name, frames, false, false, isLooping);
+        }
 
 
-        //public void CreateAnimation(string animationName, TimeSpan frameDuration, bool isReversed, bool isPingPong, bool isLooping, params int[] regionIndexes)
-        //{
-        //    List<AnimationFrame> frames = new List<AnimationFrame>();
+        public void AddAnimation(string name, TimeSpan frameDuration, bool isReversed, bool isPingPong, bool isLooping, params int[] regionIndexes)
+        {
+            List<AnimationFrame> frames = new List<AnimationFrame>();
 
-        //    foreach (int index in regionIndexes)
-        //    {
-        //        AnimationFrame frame = new AnimationFrame(TextureAtlas.GetRegion(index), frameDuration);
-        //        frames.Add(frame);
-        //    }
+            foreach (int index in regionIndexes)
+            {
+                AnimationFrame frame = new AnimationFrame(TextureAtlas.GetRegion(index), frameDuration);
+                frames.Add(frame);
+            }
 
-        //    CreateAnimation(animationName, frames, isReversed, isPingPong, isLooping);
-        //}
+            AddAnimation(name, frames, isReversed, isPingPong, isLooping);
+        }
+
+
+        private void AddAnimation(string name, List<AnimationFrame> frames, bool isReversed, bool isPingPong, bool isLooping)
+        {
+            _animations.Add(name, new Animation(frames, isReversed, isPingPong, isLooping));
+        }
 
         #endregion Factory
     }

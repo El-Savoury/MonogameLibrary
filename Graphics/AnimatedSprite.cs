@@ -8,11 +8,13 @@
         public AnimationController AnimationController { get; private set; }
 
 
-        public AnimatedSprite(Spritesheet spritesheet, string defaultAnimation)
+        public AnimatedSprite(Spritesheet spritesheet, string defaultAnimationName)
         {
             _spritesheet = spritesheet;
-            _animation = spritesheet.GetAnimation(defaultAnimation);
+            _animation = spritesheet.GetAnimation(defaultAnimationName);
             AnimationController = new AnimationController(_animation);
+
+            Region = AnimationController.CurrentFrame.Region;
         }
 
 
