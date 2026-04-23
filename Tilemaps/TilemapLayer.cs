@@ -96,7 +96,6 @@ namespace MonogameLibrary.Tilemaps
                     Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
                     Vector2 tileOrigin = new Vector2(TileWidth, TileHeight) * 0.5f;
 
-                    //  region.Draw(spriteBatch, tilePosition, Color.White);
                     region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, MathHelper.ToRadians(rotation), tileOrigin, 1.0f, SpriteEffects.None, 1.0f);
                 }
             }

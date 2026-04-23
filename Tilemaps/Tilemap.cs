@@ -1,11 +1,4 @@
-﻿using MonogameLibrary.Graphics;
-using MonogameLibrary.Maths;
-using System.Data;
-using System.Reflection.Metadata.Ecma335;
-using System.Xml;
-using System.Xml.Linq;
-
-namespace MonogameLibrary.Tilemaps
+﻿namespace MonogameLibrary.Tilemaps
 {
     public class Tilemap
     {
@@ -68,6 +61,7 @@ namespace MonogameLibrary.Tilemaps
 
 
 
+
         #region Update
 
         public void Update(GameTime gameTime)
@@ -79,6 +73,7 @@ namespace MonogameLibrary.Tilemaps
         }
 
         #endregion Update
+
 
 
 
@@ -104,18 +99,8 @@ namespace MonogameLibrary.Tilemaps
 
 
 
-        #region Utility
 
-        /// <summary>
-        /// Register a new tile type to this tilemap
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="info"></param>
-        public void AddTileType(ushort typeID, int tilesetID)
-        {
-            TileRegistry.Add(typeID, tilesetID);
-        }
-
+        #region Layers
 
         /// <summary>
         /// Add a new layer to the tilemap
@@ -187,23 +172,45 @@ namespace MonogameLibrary.Tilemaps
             return GetLayer(layerEnum.ToString());
         }
 
+        #endregion Layers
 
-        public Tile GetTile(int column, int row, string layer = "defaultLayer")
+
+
+
+
+        #region Tiles
+
+        public Tile GetTile(int column, int row, string tilemapLayer)
         {
-            return TilemapLayers[layer].GetTile(column, row);
+            return TilemapLayers[tilemapLayer].GetTile(column, row);
+        }
+
+
+        public Tile GetTile(Point index, string tilemapLayer)
+        {
+            return TilemapLayers[tilemapLayer].GetTile(index.X, index.Y);
         }
 
 
         /// <summary>
-        /// 
+        /// Get the tile at the specified world position
         /// </summary>
-        /// <param name="layer"></param>
+        /// <param name="tilemapLayer"></param>
         /// <param name="worldPos"></param>
         /// <returns></returns>
-        public Tile GetTile(string layer, Vector2 worldPos)
+        public Tile GetTile(Vector2 worldPos, string tilemapLayer)
         {
-            return TilemapLayers[layer].GetTile(worldPos);
+            return TilemapLayers[tilemapLayer].GetTile(worldPos);
         }
+
+        #endregion Tiles
+
+
+
+
+
+
+        #region Util
 
         public Vector2 IndexToWorldPos(int x, int y)
         {
@@ -231,21 +238,22 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        //public Tile[] GetTilesInRect(RectF rect)
-        //{
-        //    Vector2 topLeftTileIndex = rect.Min;
-        //    int tilesAcross = (int)rect.Width / TileWidth;
-        //    int tilesDown = (int)rect.Height / TileHeight;
+        /// <summary>
+        /// Register a new tile type to this tilemap
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="info"></param>
+        public void AddTileType(ushort typeID, int tilesetID)
+        {
+            TileRegistry.Add(typeID, tilesetID);
+        }
 
-
-
-        //}
 
         public ushort GetTileType(int row, int column, string tilemapLayer)
         {
             return GetTile(row, column, tilemapLayer).Type;
         }
 
-        #endregion Utility
+        #endregion Util
     }
 }

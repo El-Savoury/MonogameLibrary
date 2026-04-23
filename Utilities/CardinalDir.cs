@@ -12,7 +12,6 @@
 
     public static class CardinalDirExtension
     {
-
         public static Point ConvertToPoint(CardinalDir direction)
         {
             switch (direction)
