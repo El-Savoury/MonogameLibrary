@@ -1,4 +1,6 @@
-﻿namespace MonogameLibrary.Tilemaps
+﻿using Microsoft.Xna.Framework;
+
+namespace MonogameLibrary.Tilemaps
 {
     public class Tilemap
     {
@@ -203,6 +205,47 @@
             return TilemapLayers[tilemapLayer].GetTile(worldPos);
         }
 
+
+        public void SetTile(Enum tilemapLayer, Tile tile, int row, int column)
+        {
+            TilemapLayers[tilemapLayer.ToString()].SetTile(row, column, tile);
+        }
+
+
+        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
+        {
+            TilemapLayers[tilemapLayer].SetTile(row, column, tile);
+        }
+
+
+        /// <summary>
+        /// Register a new tile type to this tilemap
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="info"></param>
+        public void AddTileType(ushort type, int tilesetIndex, TileCollision collision)
+        {
+            TileRegistry.Add(type, tilesetIndex, collision);
+        }
+
+
+        public ushort GetTileType(Point index, string tilemapLayer)
+        {
+            return GetTile(index.X, index.Y, tilemapLayer).TileType;
+        }
+
+
+        public ushort GetTileType(int column, int row, string tilemapLayer)
+        {
+            return GetTile(column, row, tilemapLayer).TileType;
+        }
+
+
+        public TileInfo GetTileInfo(Point index, string tilemapLayer)
+        {
+            ushort type = GetTileType(index, tilemapLayer);
+            return TileRegistry.GetInfo(type);
+        }
         #endregion Tiles
 
 
@@ -224,36 +267,7 @@
 
             return new Point(xPosOffset / TileWidth, YPosOffset / TileWidth);
         }
-
-
-        public void SetTile(Enum tilemapLayer, Tile tile, int row, int column)
-        {
-            TilemapLayers[tilemapLayer.ToString()].SetTile(row, column, tile);
-        }
-
-
-        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
-        {
-            TilemapLayers[tilemapLayer].SetTile(row, column, tile);
-        }
-
-
-        /// <summary>
-        /// Register a new tile type to this tilemap
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="info"></param>
-        public void AddTileType(ushort typeID, int tilesetID)
-        {
-            TileRegistry.Add(typeID, tilesetID);
-        }
-
-
-        public ushort GetTileType(int row, int column, string tilemapLayer)
-        {
-            return GetTile(row, column, tilemapLayer).Type;
-        }
-
+                
         #endregion Util
     }
 }

@@ -9,16 +9,16 @@ namespace MonogameLibrary.Tilemaps
     {
         private Dictionary<ushort, TileInfo> _tileTypes = [];
 
-        public void Add(ushort ID, int tilesetID)
+        public void Add(ushort type, int tilesetIndex, TileCollision collision)
         {
-            TileInfo info = new TileInfo(tilesetID);
-            _tileTypes.Add(ID, info);
+            TileInfo info = new TileInfo(tilesetIndex, collision);
+            _tileTypes.Add(type, info);
         }
 
 
-        public TileInfo GetInfo(ushort ID)
+        public TileInfo GetInfo(ushort type)
         {
-            return _tileTypes[ID];
+            return _tileTypes[type];
         }
     }
 }

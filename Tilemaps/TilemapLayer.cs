@@ -70,8 +70,8 @@ namespace MonogameLibrary.Tilemaps
             {
                 for (int y = 0; y < Rows; y++)
                 {
-                    TileInfo info = _tileTypeRegistry.GetInfo(Tiles[x, y].Type);
-                    TextureRegion region = Tileset.GetTileTexture(info.TilesetID);
+                    TileInfo info = _tileTypeRegistry.GetInfo(Tiles[x, y].TileType);
+                    TextureRegion region = Tileset.GetTileTexture(info.TilesetIndex);
 
                     float rotation = 0;
 

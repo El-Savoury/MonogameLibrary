@@ -16,7 +16,7 @@ namespace MonogameLibrary.Tilemaps
 
         #region Properties
 
-        public ushort Type = 0;
+        public ushort TileType = 0;
         public uint Flags = 0;
 
         public CardinalDir Rotation
@@ -40,18 +40,10 @@ namespace MonogameLibrary.Tilemaps
 
         #region Init
 
-        public Tile(ushort typeID, CardinalDir rotation = 0)
+        public Tile(ushort type, CardinalDir rotation = 0)
         {
-            Type = typeID;
+            TileType = type;
             Rotation = rotation;
-        }
-
-
-        public Tile(ushort typeID, CardinalDir rotation, uint flag)
-        {
-            Type = typeID;
-            Rotation = rotation;
-            Flags |= flag;
         }
 
         #endregion Init
