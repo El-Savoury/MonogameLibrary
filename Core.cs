@@ -23,8 +23,6 @@ namespace MonogameLibrary
         /// <param name="width">Default game window width</param>
         /// <param name="height">Default game window height</param>
         /// <param name="fullscreen">Determines if game window opens in fullscreen</param>
-
-
         public Core(string title, int width, int height, bool fullscreen)
         {
             // Ensure that multiple cores are not created
@@ -63,7 +61,6 @@ namespace MonogameLibrary
             GraphicsDevice = base.GraphicsDevice;
             SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
-
 
 
         protected override void Update(GameTime gameTime)

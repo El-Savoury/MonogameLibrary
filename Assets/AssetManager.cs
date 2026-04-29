@@ -5,7 +5,7 @@ namespace MonogameLibrary.Assets
 {
     public class AssetManager : Singleton<AssetManager>
     {
-        ContentManager _content;
+        private ContentManager _content;
 
         private readonly Dictionary<string, TextureAtlas> _textureAtlases = [];
         private readonly Dictionary<string, SpriteFont> _fonts = [];
@@ -22,22 +22,29 @@ namespace MonogameLibrary.Assets
             return _content.Load<T>(filePath);
         }
 
+
+
+
+
+        #region TextureAtlases
+
         public void AddTextureAtlas(string name, TextureAtlas atlas)
         {
             _textureAtlases.Add(name, atlas);
         }
 
 
-        //public void AddTextureAtlas(string name, string filePath)
-        //{
-        //    _textureAtlases.Add(name, Load<TextureAtlas>(filePath));
-        //}
-
-
         //public void AddTextureAtlas(string name, Texture2D texture)
         //{
         //    TextureAtlas atlas = new TextureAtlas(texture);
         //    _textureAtlases.Add(name, atlas);
+        //}
+
+
+        //public void AddTextureAtlas(string name, string filePath)
+        //{
+        //    Texture2D texture = Load<Texture2D>(filePath);
+        //    AddTextureAtlas(name, texture);
         //}
 
 
@@ -52,6 +59,14 @@ namespace MonogameLibrary.Assets
             _textureAtlases.Remove(name);
         }
 
+        #endregion TextureAtlases
+
+
+
+
+
+
+        #region Fonts
 
         public void AddFont(string name, string filePath)
         {
@@ -69,5 +84,7 @@ namespace MonogameLibrary.Assets
         {
             _fonts.Remove(name);
         }
+
+        #endregion Fonts
     }
 }
