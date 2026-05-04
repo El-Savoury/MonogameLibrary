@@ -21,7 +21,7 @@
 
             set { playDirection = value ? -1 : 1; }
         }
-        public int CurrentFrameIndex { get; private set; }
+        public int CurrentFrameIndex { get; set; }
         public AnimationFrame CurrentFrame => animation.Frames[CurrentFrameIndex];
         public int TotalNumOfFrames => animation.Frames.Count - 1;
 

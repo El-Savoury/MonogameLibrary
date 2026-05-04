@@ -30,5 +30,12 @@
             Animation animation = _spritesheet.GetAnimation(animationName);
             AnimationController = new AnimationController(animation);
         }
+
+
+        public void SetCurrentFrame(int frameIndex)
+        {
+            AnimationController.CurrentFrameIndex = frameIndex;
+        }
+
     }
 }
