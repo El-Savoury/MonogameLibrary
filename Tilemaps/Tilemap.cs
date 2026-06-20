@@ -1,23 +1,20 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace MonogameLibrary.Tilemaps
+﻿namespace MonogameLibrary.Tilemaps
 {
     public class Tilemap
     {
         #region Properties
 
         public Tileset Tileset { get; }
-        public Dictionary<string, TilemapLayer> TilemapLayers { get; }
+        public Dictionary<string, TilemapLayer> Layers { get; }
         public Vector2 Position { get; set; }
         public int TileWidth { get; }
         public int TileHeight { get; }
-        public int Width { get; }
-        public int Height { get; }
-        public int Count => Width * Height;
-        public int WidthInPixels => Width * TileWidth;
-        public int HeightInPixels => Height * TileHeight;
+        public int Columns { get; }
+        public int Rows { get; }
+        public int Count => Columns * Rows;
+        public int WidthInPixels => Columns * TileWidth;
+        public int HeightInPixels => Rows * TileHeight;
 
-        public TileTypeRegistry TileRegistry = new TileTypeRegistry();
 
         #endregion Properties
 
@@ -32,29 +29,29 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         public Tilemap()
         {
-            TilemapLayers = new Dictionary<string, TilemapLayer>();
+            Layers = new Dictionary<string, TilemapLayer>();
         }
 
 
         /// <summary>
         /// Create a tile map of specified position and size
         /// </summary>
-        /// <param name="tileset"></param>
-        /// <param name="position"></param>
-        /// <param name="tileWidth"></param>
-        /// <param name="tileHeight"></param>
-        /// <param name="columns"></param>
-        /// <param name="rows"></param>
+        /// <param name="tileset">The tileset we want to use in this tilemap</param>
+        /// <param name="position">The top left position of the tilemap</param>
+        /// <param name="tileWidth">The width in pixels of a tile in this tilemap</param>
+        /// <param name="tileHeight">The height in pixels of a tile in this tilemap</param>
+        /// <param name="columns">The number of columns of tiles in the tilemap</param>
+        /// <param name="rows"The number of rows of tiles in the tilemap</param>
         public Tilemap(Tileset tileset, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
         {
             Tileset = tileset;
             Position = position;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
-            Width = columns;
-            Height = rows;
+            Columns = columns;
+            Rows = rows;
 
-            TilemapLayers = new Dictionary<string, TilemapLayer>();
+            Layers = new Dictionary<string, TilemapLayer>();
         }
 
         #endregion Init
@@ -68,7 +65,7 @@ namespace MonogameLibrary.Tilemaps
 
         public void Update(GameTime gameTime)
         {
-            foreach (TilemapLayer layer in TilemapLayers.Values)
+            foreach (TilemapLayer layer in Layers.Values)
             {
                 layer.Update(gameTime);
             }
@@ -89,7 +86,7 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TilemapLayer layer in TilemapLayers.Values)
+            foreach (TilemapLayer layer in Layers.Values)
             {
                 layer.Draw(spriteBatch);
             }
@@ -111,13 +108,13 @@ namespace MonogameLibrary.Tilemaps
         /// <exception cref="ArgumentException"></exception>
         public void AddLayer(string name)
         {
-            if (TilemapLayers.ContainsKey(name))
+            if (Layers.ContainsKey(name))
             {
                 throw new ArgumentException($"Tilemap layer with name {name} already exists");
             }
 
-            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Width, Height, this);
-            TilemapLayers.Add(name, layer);
+            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Columns, Rows, Tileset);
+            Layers.Add(name, layer);
         }
 
 
@@ -138,7 +135,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns>True if layer is successfully removed</returns>
         public bool RemoveLayer(string name)
         {
-            return TilemapLayers.Remove(name);
+            return Layers.Remove(name);
         }
 
 
@@ -160,7 +157,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns>Layer of specified name if one exists</returns>
         public TilemapLayer GetLayer(string name)
         {
-            return TilemapLayers[name];
+            return Layers[name];
         }
 
 
@@ -182,70 +179,81 @@ namespace MonogameLibrary.Tilemaps
 
         #region Tiles
 
-        public Tile GetTile(int column, int row, string tilemapLayer)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="row"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public Tile GetTile(int column, int row, string layer)
         {
-            return TilemapLayers[tilemapLayer].GetTile(column, row);
+            return Layers[layer].GetTile(column, row);
         }
 
 
-        public Tile GetTile(Point index, string tilemapLayer)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public Tile GetTile(Point index, string layer)
         {
-            return TilemapLayers[tilemapLayer].GetTile(index.X, index.Y);
+            return Layers[layer].GetTile(index.X, index.Y);
         }
 
 
         /// <summary>
         /// Get the tile at the specified world position
         /// </summary>
-        /// <param name="tilemapLayer"></param>
+        /// <param name="layer"></param>
         /// <param name="worldPos"></param>
         /// <returns></returns>
-        public Tile GetTile(Vector2 worldPos, string tilemapLayer)
+        public Tile GetTile(Vector2 worldPos, string layer)
         {
-            return TilemapLayers[tilemapLayer].GetTile(worldPos);
-        }
-
-
-        public void SetTile(Enum tilemapLayer, Tile tile, int row, int column)
-        {
-            TilemapLayers[tilemapLayer.ToString()].SetTile(row, column, tile);
-        }
-
-
-        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
-        {
-            TilemapLayers[tilemapLayer].SetTile(row, column, tile);
+            return Layers[layer].GetTile(worldPos);
         }
 
 
         /// <summary>
-        /// Register a new tile type to this tilemap
+        /// 
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="info"></param>
-        public void AddTileType(ushort type, int tilesetIndex, TileCollision collision)
+        /// <param name="tilemapLayer"></param>
+        /// <param name="tile"></param>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        public void SetTile(Enum tilemapLayer, Tile tile, int row, int column)
         {
-            TileRegistry.Add(type, tilesetIndex, collision);
+            Layers[tilemapLayer.ToString()].SetTile(row, column, tile);
         }
 
 
-        public ushort GetTileType(Point index, string tilemapLayer)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tilemapLayer"></param>
+        /// <param name="tile"></param>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
         {
-            return GetTile(index.X, index.Y, tilemapLayer).TileType;
+            Layers[tilemapLayer].SetTile(row, column, tile);
         }
 
 
-        public ushort GetTileType(int column, int row, string tilemapLayer)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public TileTemplate GetTileInfo(Point index, string layer)
         {
-            return GetTile(column, row, tilemapLayer).TileType;
+            ushort tileID = GetTile(index, layer).TilesetID;
+            return Tileset.GetTileInfo(tileID);
         }
 
-
-        public TileInfo GetTileInfo(Point index, string tilemapLayer)
-        {
-            ushort type = GetTileType(index, tilemapLayer);
-            return TileRegistry.GetInfo(type);
-        }
         #endregion Tiles
 
 
@@ -253,13 +261,89 @@ namespace MonogameLibrary.Tilemaps
 
 
 
+        //#region TileObjects
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="index"></param>
+        ///// <param name="layer"></param>
+        ///// <returns></returns>
+        //public TilemapObject GetObject(Point index, string layer)
+        //{
+        //    return Layers[layer].GetObject(index);
+        //}
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="obj"></param>
+        ///// <param name="layer"></param>
+        //public void AddObject(TilemapObject obj, string layer)
+        //{
+        //    Layers[layer].AddObject(obj);
+        //}
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="obj"></param>
+        ///// <param name="layer"></param>
+        ///// <returns></returns>
+        //public bool RemoveObject(TilemapObject obj, string layer)
+        //{
+        //   return Layers[layer].RemoveObject(obj);
+        //}
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="tileObject"></param>
+        ///// <param name="layer"></param>
+        //public void DestroyObject(TilemapObject tileObject, string layer)
+        //{
+        //    RemoveObject(tileObject, layer);
+        //    tileObject = null;
+        //}
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="layer"></param>
+        //public void ClearObjects(string layer)
+        //{
+        //    Layers[layer].TileObjects.Clear();
+        //}
+
+        //#endregion TileObjects
+
+
+
+
+
         #region Util
 
+        /// <summary>
+        /// Get the world position of a tile from it's index in the tilemap
+        /// </summary>
+        /// <param name="x">Tile index on the x-axis of tilemap</param>
+        /// <param name="y">Tile index on the y-axis of tilemap</param>
+        /// <returns>World position of tiles top left corner</returns>
         public Vector2 IndexToWorldPos(int x, int y)
         {
             return new Vector2(Position.X + x * TileWidth, Position.Y + y * TileHeight);
         }
 
+
+        /// <summary>
+        /// Converts a tiles world position into it's index in the tilemap
+        /// </summary>
+        /// <param name="worldPos">World position of tile top left corner</param>
+        /// <returns>Tilemap index of tile at this position</returns>
         public Point WorldPosToIndex(Vector2 worldPos)
         {
             int xPosOffset = (int)(worldPos.X - Position.X);
@@ -267,7 +351,7 @@ namespace MonogameLibrary.Tilemaps
 
             return new Point(xPosOffset / TileWidth, YPosOffset / TileWidth);
         }
-                
+
         #endregion Util
     }
 }

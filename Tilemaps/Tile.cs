@@ -1,71 +1,20 @@
 ﻿using MonogameLibrary.Utilities;
-using System;
 
 namespace MonogameLibrary.Tilemaps
 {
+    /// <summary>
+    /// A single tile instance in a tilemap
+    /// </summary>
     public struct Tile
     {
-        #region Constants
-
-        private const uint ROTATION_MASK = 0b11; // bits 0 and 1
-
-        #endregion Constants
+        public int TilesetID { get; }
+        public CardinalDir Rotation { get; set; }
 
 
-
-
-        #region Properties
-
-        public ushort TileType = 0;
-        public uint Flags = 0;
-
-        public CardinalDir Rotation
+        public Tile(int tilesetID, CardinalDir rotation = CardinalDir.Up)
         {
-            get
-            {
-                return (CardinalDir)(Flags & ROTATION_MASK);
-            }
-            set
-            {
-                Flags &= ~ROTATION_MASK; // Clear current rotation bits using rotation bit mask
-                Flags |= (byte)value;  // Set the new rotation bits
-            }
-        }
-
-        #endregion Properties
-
-
-
-
-
-        #region Init
-
-        public Tile(ushort type, CardinalDir rotation = 0)
-        {
-            TileType = type;
+            TilesetID = tilesetID;
             Rotation = rotation;
         }
-
-        #endregion Init
-
-
-
-
-
-
-        #region Util
-
-        public void AddFlag(Enum flag)
-        {
-            Flags |= Convert.ToUInt32(flag);
-        }
-
-
-        public bool HasFlag(Enum flag)
-        {
-            return (Flags & Convert.ToUInt32(flag)) != 0;
-        }
-
-        #endregion Util
     }
 }

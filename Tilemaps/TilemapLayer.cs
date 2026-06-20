@@ -1,5 +1,4 @@
 ﻿using MonogameLibrary.Graphics;
-using MonogameLibrary.Input;
 using MonogameLibrary.Utilities;
 
 namespace MonogameLibrary.Tilemaps
@@ -8,9 +7,6 @@ namespace MonogameLibrary.Tilemaps
     {
         #region Properties
 
-        private TileTypeRegistry _tileTypeRegistry;
-
-        public Tileset Tileset { get; set; }
         public string Name { get; }
         public Vector2 Position { get; }
         public Tile[,] Tiles { get; }
@@ -18,6 +14,10 @@ namespace MonogameLibrary.Tilemaps
         public int TileHeight { get; }
         public int Columns { get; }
         public int Rows { get; }
+        public bool IsVisible { get; set; }
+        public float Opacity { get; set; }
+        public Tileset Tileset { get; set; }
+
 
         #endregion Properties
 
@@ -27,7 +27,7 @@ namespace MonogameLibrary.Tilemaps
 
         #region Init
 
-        public TilemapLayer(string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows, Tilemap parent)
+        public TilemapLayer(string name, Vector2 position, int tileWidth, int tileHeight, int columns, int rows, Tileset tileset)
         {
             Name = name;
             Position = position;
@@ -35,15 +35,14 @@ namespace MonogameLibrary.Tilemaps
             TileHeight = tileHeight;
             Columns = columns;
             Rows = rows;
-
-            // TODO : Don't do this
-            _tileTypeRegistry = parent.TileRegistry;
-            Tileset = parent.Tileset;
-
+            IsVisible = true;
+            Opacity = 1.0f;
+            Tileset = tileset;
             Tiles = new Tile[columns, rows];
         }
 
         #endregion Init
+
 
 
 
@@ -66,37 +65,21 @@ namespace MonogameLibrary.Tilemaps
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            if(!IsVisible) { return; }
+
             for (int x = 0; x < Columns; x++)
             {
                 for (int y = 0; y < Rows; y++)
                 {
-                    TileInfo info = _tileTypeRegistry.GetInfo(Tiles[x, y].TileType);
-                    TextureRegion region = Tileset.GetTileTexture(info.TilesetIndex);
-
-                    float rotation = 0;
-
-                    switch (Tiles[x, y].Rotation)
-                    {
-                        case CardinalDir.Up:
-                            rotation = 0;
-                            break;
-                        case CardinalDir.Right:
-                            rotation = 90;
-                            break;
-                        case CardinalDir.Down:
-                            rotation = 180;
-                            break;
-                        case CardinalDir.Left:
-                            rotation = 270;
-                            break;
-                    }
+                    TextureRegion region = Tileset.GetTileTexture(Tiles[x, y].TilesetID);
+                    float rotation = CardinalDirExtension.ToRadians(Tiles[x, y].Rotation);
 
                     int tileOffsetX = x * TileWidth;
                     int tileOffsetY = y * TileHeight;
                     Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
                     Vector2 tileOrigin = new Vector2(TileWidth, TileHeight) * 0.5f;
 
-                    region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, MathHelper.ToRadians(rotation), tileOrigin, 1.0f, SpriteEffects.None, 1.0f);
+                    region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, rotation, tileOrigin, 1.0f, SpriteEffects.None, 1.0f);
                 }
             }
         }
@@ -108,7 +91,7 @@ namespace MonogameLibrary.Tilemaps
 
 
 
-        #region Utility
+        #region Tiles
 
         /// <summary>
         /// Get the tile at the specified tilemap layer column and row 
@@ -125,11 +108,11 @@ namespace MonogameLibrary.Tilemaps
         /// <summary>
         /// Get the tile at specified world position
         /// </summary>
-        /// <param name="worldPosition">World position coordinates</param>
+        /// <param name="worldPos">World position coordinates</param>
         /// <returns>Tile at specified world coordinates</returns>
-        public Tile GetTile(Vector2 worldPosition)
+        public Tile GetTile(Vector2 worldPos)
         {
-            Vector2 offset = worldPosition - Position;
+            Vector2 offset = worldPos - Position;
             int column = (int)(offset.X / TileWidth);
             int row = (int)(offset.Y / TileHeight);
 
@@ -148,6 +131,49 @@ namespace MonogameLibrary.Tilemaps
             Tiles[column, row] = tile;
         }
 
-        #endregion Utility
+        #endregion Tiles
+
+
+
+
+
+
+        //#region TileObjects
+
+        //public void AddObject(TilemapObject obj)
+        //{
+        //    TileObjects.Add(obj);
+        //}
+
+
+        //public bool RemoveObject(TilemapObject obj)
+        //{
+        //    return TileObjects.Remove(obj);
+        //}
+
+
+        //public void DestroyObject(TilemapObject tileObject)
+        //{
+        //    RemoveObject(tileObject);
+        //    tileObject = null;
+        //}
+
+
+        //public void Clear()
+        //{
+        //    TileObjects.Clear();
+        //}
+
+
+        //public TilemapObject GetObject(Point index)
+        //{
+        //    for (int i = 0; i < TileObjects.Count; i++)
+        //    {
+        //        if (TileObjects[i].MapIndex == index) return TileObjects[i];
+        //    }
+        //    return null;
+        //}
+
+       // #endregion TileObjects
     }
 }

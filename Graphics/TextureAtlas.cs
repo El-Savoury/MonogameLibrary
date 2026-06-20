@@ -128,6 +128,11 @@ namespace MonogameLibrary.Graphics
 
         #region Utility
 
+        /// <summary>
+        ///  Add a region to the texture atlas
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="region"></param>
         private void AddRegion(string name, TextureRegion region)
         {
             _regionsByName.Add(name, region);
