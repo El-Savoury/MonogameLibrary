@@ -128,8 +128,9 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="column">Column containing tile</param>
         /// <param name="row">Row containing tile</param>
         /// <param name="tile">Tile to set</param>
-        public void SetTile(int column, int row, Tile tile)
+        public void SetTile(int column, int row, int tilesetID)
         {
+            Tile tile = Tile.FromTemplate(Tileset.TileTemplates[tilesetID]);
             Tiles[column, row] = tile;
         }
 

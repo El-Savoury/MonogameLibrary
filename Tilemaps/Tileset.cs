@@ -1,5 +1,7 @@
 ﻿using MonogameLibrary.Assets;
 using MonogameLibrary.Graphics;
+using MonogameLibrary.Utilities;
+using System.Data.Common;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -73,15 +75,18 @@ namespace MonogameLibrary.Tilemaps
                     string atlasName = root.Element("Atlas").Value;
                     TextureAtlas atlas = AssetManager.I.GetTextureAtlas(atlasName);
 
-                    XElement region = root.Element("Region");
-                    string name = root.Element("name").Value;
-                    int x = int.Parse(region.Attribute("x")?.Value);
-                    int y = int.Parse(region.Attribute("y")?.Value);
-                    int width = int.Parse(region.Attribute("width")?.Value);
-                    int height = int.Parse(region.Attribute("height")?.Value);
+                    XElement regionElement = root.Element("Region");
+                    string name = root.Element("name")?.Value;
+                    int x = int.Parse(regionElement.Attribute("x")?.Value ?? "0");
+                    int y = int.Parse(regionElement.Attribute("y")?.Value ?? "0");
+                    int width = int.Parse(regionElement.Attribute("width")?.Value ?? atlas.Texture.Width.ToString());
+                    int height = int.Parse(regionElement.Attribute("height")?.Value ?? atlas.Texture.Height.ToString());
 
-                    atlas.AddRegion(name, x, y, width, height);
-                    tileset.TilesetTexture = atlas.GetRegion(name);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        atlas.AddRegion(name, x, y, width, height);
+                        tileset.TilesetTexture = atlas.GetRegion(name);
+                    }
 
                     // Load all tile templates
                     var templates = root.Element("Templates")?.Elements("Template");
@@ -92,29 +97,12 @@ namespace MonogameLibrary.Tilemaps
                         {
                             int id = int.Parse(template.Attribute("id").Value);
 
-                            // TODO: Add other fields to parse here
+                            // TODO: Add any other fields to parse here
 
-                            // Define tile collision type
-                            string collisionPath = template.Attribute("collision").Value;
-                            TileCollision collision = TileCollision.None;
+                            int collision = int.Parse(template.Attribute("collision")?.Value ?? "0");
+                            int rotation = int.Parse(template.Attribute("rotation")?.Value ?? "0");
 
-                            switch (collisionPath)
-                            {
-                                case "none":
-                                    collision = TileCollision.None;
-                                    break;
-                                case "solid":
-                                    collision = TileCollision.Solid;
-                                    break;
-                                case "passable":
-                                    collision = TileCollision.Passable;
-                                    break;
-                                case "oneWay":
-                                    collision = TileCollision.OneWay;
-                                    break;
-                            }
-
-                            tileset.AddTileTemplate(id, collision);
+                            tileset.AddTileTemplate(id, (TileCollision)collision, (CardinalDir)rotation);
                         }
                     }
                 }
@@ -130,9 +118,9 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         /// <param name="tilesetID"></param>
         /// <param name="collision"></param>
-        public void AddTileTemplate(int tilesetID, TileCollision collision)
+        public void AddTileTemplate(int tilesetID, TileCollision collision, CardinalDir rotation)
         {
-            TileTemplate template = new TileTemplate(tilesetID, collision);
+            TileTemplate template = new TileTemplate(tilesetID, collision, rotation);
             TileTemplates.Add(tilesetID, template);
         }
 

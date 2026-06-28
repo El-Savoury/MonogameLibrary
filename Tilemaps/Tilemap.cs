@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using MonogameLibrary.Utilities;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace MonogameLibrary.Tilemaps
@@ -65,7 +66,13 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        public static Tilemap FromFile(ContentManager content, string fileName)
+        /// <summary>
+        /// Load tiles from an xml file
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public void LoadLevelFromFile(ContentManager content, string fileName)
         {
             string path = Path.Combine(content.RootDirectory, fileName);
 
@@ -76,9 +83,23 @@ namespace MonogameLibrary.Tilemaps
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
+                    // Set layer to add tiles to
+                    string layer = root.Element("Layer")?.Value ?? "defaultLayer";
 
+                    // Parse tile rows into array of strings
+                    XElement tilesElement = root.Element("Tiles");
+                    string[] tileIDRows = tilesElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
+                    for (int row = 0; row < Rows; row++)
+                    {
+                        string[] tileIDColumns = tileIDRows[row].Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
+                        for (int column = 0; column < Columns; column++)
+                        {
+                            int id = int.Parse(tileIDColumns[column]);
+                            SetTile(layer, id, row, column);
+                        }
+                    }
                 }
             }
         }
@@ -262,12 +283,12 @@ namespace MonogameLibrary.Tilemaps
         /// Set the tile at the specified index
         /// </summary>
         /// <param name="tilemapLayer"></param>
-        /// <param name="tile"></param>
-        /// <param name="row"></param>
+        /// <param name="tilesetID"></param>
         /// <param name="column"></param>
-        public void SetTile(string tilemapLayer, Tile tile, int row, int column)
+        /// <param name="column"></param>
+        public void SetTile(string tilemapLayer, int tilesetID, int column, int row)
         {
-            Layers[tilemapLayer].SetTile(row, column, tile);
+            Layers[tilemapLayer].SetTile(column, row, tilesetID);
         }
 
         #endregion Tiles

@@ -11,10 +11,15 @@ namespace MonogameLibrary.Tilemaps
         public CardinalDir Rotation { get; set; }
 
 
-        public Tile(int tilesetID, CardinalDir rotation = CardinalDir.Up)
+        public Tile(int tilesetID, CardinalDir rotation)
         {
             TilesetID = tilesetID;
             Rotation = rotation;
+        }
+
+        public static Tile FromTemplate(TileTemplate template)
+        {
+            return new Tile(template.TilesetID, template.Rotation);
         }
     }
 }

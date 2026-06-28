@@ -1,4 +1,6 @@
-﻿using MonogameLibrary.Graphics;
+﻿using MonogameLibrary.Collisions;
+using MonogameLibrary.Graphics;
+using MonogameLibrary.Utilities;
 
 namespace MonogameLibrary.Tilemaps
 {
@@ -15,14 +17,24 @@ namespace MonogameLibrary.Tilemaps
     {
         public int TilesetID { get; }
         public Rectangle Bounds { get; }
+        public CardinalDir Rotation { get; }
         public TileCollision Collision { get; }
         public List<Animation> Animations { get; }
 
 
-        public TileTemplate(int tilesetID, TileCollision collision)
+        public TileTemplate(int tilesetID)
+        {
+            TilesetID = tilesetID;
+            Collision = TileCollision.None;
+            Rotation = CardinalDir.Up;
+        }
+
+
+        public TileTemplate(int tilesetID, TileCollision collision, CardinalDir rotation = CardinalDir.Up)
         {
             TilesetID = tilesetID;
             Collision = collision;
+            Rotation = rotation;
         }
     }
 }
