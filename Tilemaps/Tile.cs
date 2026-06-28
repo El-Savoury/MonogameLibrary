@@ -3,7 +3,7 @@
 namespace MonogameLibrary.Tilemaps
 {
     /// <summary>
-    /// A single tile instance in a tilemap
+    /// A single tile instance in a tilemap.
     /// </summary>
     public struct Tile
     {

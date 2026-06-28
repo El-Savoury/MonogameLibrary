@@ -3,6 +3,9 @@ using MonogameLibrary.Utilities;
 
 namespace MonogameLibrary.Tilemaps
 {
+    /// <summary>
+    /// A layer of tiles in a tilemap
+    /// </summary>
     public class TilemapLayer
     {
         #region Properties
@@ -17,7 +20,6 @@ namespace MonogameLibrary.Tilemaps
         public bool IsVisible { get; set; }
         public float Opacity { get; set; }
         public Tileset Tileset { get; set; }
-
 
         #endregion Properties
 
@@ -91,7 +93,7 @@ namespace MonogameLibrary.Tilemaps
 
 
 
-        #region Tiles
+        #region Util
 
         /// <summary>
         /// Get the tile at the specified tilemap layer column and row 
@@ -131,49 +133,6 @@ namespace MonogameLibrary.Tilemaps
             Tiles[column, row] = tile;
         }
 
-        #endregion Tiles
-
-
-
-
-
-
-        //#region TileObjects
-
-        //public void AddObject(TilemapObject obj)
-        //{
-        //    TileObjects.Add(obj);
-        //}
-
-
-        //public bool RemoveObject(TilemapObject obj)
-        //{
-        //    return TileObjects.Remove(obj);
-        //}
-
-
-        //public void DestroyObject(TilemapObject tileObject)
-        //{
-        //    RemoveObject(tileObject);
-        //    tileObject = null;
-        //}
-
-
-        //public void Clear()
-        //{
-        //    TileObjects.Clear();
-        //}
-
-
-        //public TilemapObject GetObject(Point index)
-        //{
-        //    for (int i = 0; i < TileObjects.Count; i++)
-        //    {
-        //        if (TileObjects[i].MapIndex == index) return TileObjects[i];
-        //    }
-        //    return null;
-        //}
-
-       // #endregion TileObjects
+        #endregion Util
     }
 }

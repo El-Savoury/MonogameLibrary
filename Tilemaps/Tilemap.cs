@@ -1,5 +1,15 @@
-﻿namespace MonogameLibrary.Tilemaps
+﻿using System.Xml;
+using System.Xml.Linq;
+
+namespace MonogameLibrary.Tilemaps
 {
+    /// <summary>
+    /// A 2D grid of tiles. 
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// Can be a single tile layer or multiple stacked layers.
+    /// </remarks>
     public class Tilemap
     {
         #region Properties
@@ -34,14 +44,14 @@
 
 
         /// <summary>
-        /// Create a tile map of specified position and size
+        /// Create a tile map with specified position and size
         /// </summary>
         /// <param name="tileset">The tileset we want to use in this tilemap</param>
         /// <param name="position">The top left position of the tilemap</param>
         /// <param name="tileWidth">The width in pixels of a tile in this tilemap</param>
         /// <param name="tileHeight">The height in pixels of a tile in this tilemap</param>
         /// <param name="columns">The number of columns of tiles in the tilemap</param>
-        /// <param name="rows"The number of rows of tiles in the tilemap</param>
+        /// <param name="rows">The number of rows of tiles in the tilemap</param>
         public Tilemap(Tileset tileset, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
         {
             Tileset = tileset;
@@ -52,6 +62,25 @@
             Rows = rows;
 
             Layers = new Dictionary<string, TilemapLayer>();
+        }
+
+
+        public static Tilemap FromFile(ContentManager content, string fileName)
+        {
+            string path = Path.Combine(content.RootDirectory, fileName);
+
+            using (Stream stream = TitleContainer.OpenStream(path))
+            {
+                using (XmlReader reader = XmlReader.Create(stream))
+                {
+                    XDocument doc = XDocument.Load(reader);
+                    XElement root = doc.Root;
+
+
+
+
+                }
+            }
         }
 
         #endregion Init
@@ -180,7 +209,7 @@
         #region Tiles
 
         /// <summary>
-        /// 
+        /// Get the tile at the specified index
         /// </summary>
         /// <param name="column"></param>
         /// <param name="row"></param>
@@ -193,7 +222,7 @@
 
 
         /// <summary>
-        /// 
+        /// Get the tile at the specified index 
         /// </summary>
         /// <param name="index"></param>
         /// <param name="layer"></param>
@@ -217,7 +246,7 @@
 
 
         /// <summary>
-        /// 
+        /// Set the tile at the specified index
         /// </summary>
         /// <param name="tilemapLayer"></param>
         /// <param name="tile"></param>
@@ -230,7 +259,7 @@
 
 
         /// <summary>
-        /// 
+        /// Set the tile at the specified index
         /// </summary>
         /// <param name="tilemapLayer"></param>
         /// <param name="tile"></param>
@@ -241,85 +270,8 @@
             Layers[tilemapLayer].SetTile(row, column, tile);
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="layer"></param>
-        /// <returns></returns>
-        public TileTemplate GetTileInfo(Point index, string layer)
-        {
-            ushort tileID = GetTile(index, layer).TilesetID;
-            return Tileset.GetTileInfo(tileID);
-        }
-
         #endregion Tiles
 
-
-
-
-
-
-        //#region TileObjects
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="index"></param>
-        ///// <param name="layer"></param>
-        ///// <returns></returns>
-        //public TilemapObject GetObject(Point index, string layer)
-        //{
-        //    return Layers[layer].GetObject(index);
-        //}
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="obj"></param>
-        ///// <param name="layer"></param>
-        //public void AddObject(TilemapObject obj, string layer)
-        //{
-        //    Layers[layer].AddObject(obj);
-        //}
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="obj"></param>
-        ///// <param name="layer"></param>
-        ///// <returns></returns>
-        //public bool RemoveObject(TilemapObject obj, string layer)
-        //{
-        //   return Layers[layer].RemoveObject(obj);
-        //}
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="tileObject"></param>
-        ///// <param name="layer"></param>
-        //public void DestroyObject(TilemapObject tileObject, string layer)
-        //{
-        //    RemoveObject(tileObject, layer);
-        //    tileObject = null;
-        //}
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="layer"></param>
-        //public void ClearObjects(string layer)
-        //{
-        //    Layers[layer].TileObjects.Clear();
-        //}
-
-        //#endregion TileObjects
 
 
 
