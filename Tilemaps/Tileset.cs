@@ -76,7 +76,7 @@ namespace MonogameLibrary.Tilemaps
                     TextureAtlas atlas = AssetManager.I.GetTextureAtlas(atlasName);
 
                     XElement regionElement = root.Element("Region");
-                    string name = root.Element("name")?.Value;
+                    string name = regionElement.Attribute("name").Value;
                     int x = int.Parse(regionElement.Attribute("x")?.Value ?? "0");
                     int y = int.Parse(regionElement.Attribute("y")?.Value ?? "0");
                     int width = int.Parse(regionElement.Attribute("width")?.Value ?? atlas.Texture.Width.ToString());
@@ -95,7 +95,7 @@ namespace MonogameLibrary.Tilemaps
                     {
                         foreach (var template in templates)
                         {
-                            int id = int.Parse(template.Attribute("id").Value);
+                            int id = int.Parse(template.Attribute("tilesetID").Value);
 
                             // TODO: Add any other fields to parse here
 

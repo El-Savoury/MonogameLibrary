@@ -229,6 +229,19 @@ namespace MonogameLibrary.Tilemaps
 
         #region Tiles
 
+        public TileTemplate GetTileTemplate(int tilesetID)
+        {
+            return Tileset.TileTemplates[tilesetID];
+        }
+
+
+        public TileTemplate GetTileTemplate(int column, int row, string layer)
+        {
+            Tile tile = GetTile(column, row, layer);
+            return Tileset.TileTemplates[tile.TilesetID];
+        }
+
+
         /// <summary>
         /// Get the tile at the specified index
         /// </summary>
@@ -273,9 +286,9 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="tile"></param>
         /// <param name="row"></param>
         /// <param name="column"></param>
-        public void SetTile(Enum tilemapLayer, Tile tile, int row, int column)
+        public void SetTile(Enum tilemapLayer, int tilesetID, int row, int column)
         {
-            Layers[tilemapLayer.ToString()].SetTile(row, column, tile);
+            Layers[tilemapLayer.ToString()].SetTile(row, column, tilesetID);
         }
 
 
