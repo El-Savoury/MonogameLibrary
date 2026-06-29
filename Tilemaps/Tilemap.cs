@@ -88,16 +88,16 @@ namespace MonogameLibrary.Tilemaps
 
                     // Parse tile rows into array of strings
                     XElement tilesElement = root.Element("Tiles");
-                    string[] tileIDRows = tilesElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    string[] tileRows = tilesElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-                    for (int row = 0; row < Rows; row++)
+                    for (int y = 0; y < Rows; y++)
                     {
-                        string[] tileIDColumns = tileIDRows[row].Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                        string[] tileColumns = tileRows[y].Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-                        for (int column = 0; column < Columns; column++)
+                        for (int x = 0; x < Columns; x++)
                         {
-                            int id = int.Parse(tileIDColumns[column]);
-                            SetTile(layer, id, row, column);
+                            int id = int.Parse(tileColumns[x]);
+                            SetTile(layer, id, x, y);
                         }
                     }
                 }

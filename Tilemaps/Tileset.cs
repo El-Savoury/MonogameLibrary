@@ -71,21 +71,26 @@ namespace MonogameLibrary.Tilemaps
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
+                    string tilesetName = root.Element("Name").Value;
+                    int tileWidth = int.Parse(root.Element("TileWidth").Value);
+                    int tileHeight = int.Parse(root.Element("TileHeight").Value);
+                    int padding = int.Parse(root.Element("Padding")?.Value ?? "0");
+
                     // Load tileset texture region and add to texture atlas 
                     string atlasName = root.Element("Atlas").Value;
                     TextureAtlas atlas = AssetManager.I.GetTextureAtlas(atlasName);
 
                     XElement regionElement = root.Element("Region");
-                    string name = regionElement.Attribute("name").Value;
+                    string regionName = regionElement.Attribute("name").Value;
                     int x = int.Parse(regionElement.Attribute("x")?.Value ?? "0");
                     int y = int.Parse(regionElement.Attribute("y")?.Value ?? "0");
                     int width = int.Parse(regionElement.Attribute("width")?.Value ?? atlas.Texture.Width.ToString());
                     int height = int.Parse(regionElement.Attribute("height")?.Value ?? atlas.Texture.Height.ToString());
 
-                    if (!string.IsNullOrEmpty(name))
+                    if (!string.IsNullOrEmpty(regionName))
                     {
-                        atlas.AddRegion(name, x, y, width, height);
-                        tileset.TilesetTexture = atlas.GetRegion(name);
+                        atlas.AddRegion(regionName, x, y, width, height);
+                        tileset = new Tileset(tilesetName, atlas.GetRegion(regionName), tileWidth, tileHeight, padding);
                     }
 
                     // Load all tile templates
@@ -132,8 +137,8 @@ namespace MonogameLibrary.Tilemaps
         ///// <returns>Texture region from tileset texture</returns>
         public TextureRegion GetTileTexture(int tilesetID)
         {
-            int column = tilesetID % Columns * TileWidth;
-            int row = tilesetID / Columns * TileHeight;
+            int column = tilesetID % Columns;
+            int row = tilesetID / Columns;
 
             return GetTileTexture(column, row);
         }
@@ -150,7 +155,7 @@ namespace MonogameLibrary.Tilemaps
             int regionX = TilesetTexture.SourceRectangle.X + column * (TileWidth + Padding);
             int regionY = TilesetTexture.SourceRectangle.Y + row * (TileHeight + Padding);
 
-            return new TextureRegion(Name, TilesetTexture.Texture, regionX, regionY, TileWidth, TileHeight);
+            return new TextureRegion(TilesetTexture.Texture, regionX, regionY, TileWidth, TileHeight);
         }
     }
 }

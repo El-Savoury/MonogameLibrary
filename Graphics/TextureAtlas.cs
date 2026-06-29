@@ -109,7 +109,7 @@ namespace MonogameLibrary.Graphics
 
                 string regionName = "name" + i;
 
-                TextureRegion region = new TextureRegion(name, texture, regionX, regionY, regionWidth, regionHeight);
+                TextureRegion region = new TextureRegion(texture, regionX, regionY, regionWidth, regionHeight);
                 atlas.AddRegion(regionName, region);
             }
 
@@ -146,7 +146,7 @@ namespace MonogameLibrary.Graphics
         /// <param name="height">Height of region in pixels</param>
         public void AddRegion(string name, int x, int y, int width, int height)
         {
-            TextureRegion region = new TextureRegion(name, Texture, x, y, width, height);
+            TextureRegion region = new TextureRegion(Texture, x, y, width, height);
             AddRegion(name, region);
         }
 
@@ -205,7 +205,7 @@ namespace MonogameLibrary.Graphics
         {
             for (int i = 0; i < _regionsByIndex.Count; i++)
             {
-                if (_regionsByIndex[i].Name == name) { return i; }
+                if (_regionsByIndex[i] == _regionsByName[name]) { return i; }
             }
 
             return -1;

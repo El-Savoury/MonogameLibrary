@@ -1,7 +1,7 @@
 ﻿namespace MonogameLibrary.Graphics
 {
     /// <summary>
-    /// A visible texture on screen
+    /// A texture with transform options
     /// </summary>
     public class Sprite
     {
