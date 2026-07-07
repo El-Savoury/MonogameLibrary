@@ -4,7 +4,7 @@
     {
         #region Members
 
-        private List<Entity> entities;
+        private readonly List<Entity> _entities;
 
         #endregion Members
 
@@ -16,7 +16,7 @@
 
         public EntityManager()
         {
-            entities = new List<Entity>();
+            _entities = new List<Entity>();
         }
 
         #endregion Init
@@ -33,7 +33,7 @@
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            foreach (Entity entity in entities)
+            foreach (Entity entity in _entities)
             {
                 if (entity.Enabled)
                 {
@@ -57,7 +57,7 @@
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Entity entity in entities)
+            foreach (Entity entity in _entities)
             {
                 if (entity.Enabled)
                 {
@@ -81,7 +81,7 @@
         /// <param name="entity">Entity to add</param>
         public void Add(Entity entity)
         {
-            entities.Add(entity);
+            _entities.Add(entity);
         }
 
 
@@ -91,7 +91,7 @@
         /// <param name="entity"></param>
         public void Remove(Entity entity)
         {
-            entities.Remove(entity);
+            _entities.Remove(entity);
         }
 
 
@@ -100,7 +100,7 @@
         /// </summary>
         public void RemoveAll()
         {
-            entities.Clear();
+            _entities.Clear();
         }
 
         #endregion Utility

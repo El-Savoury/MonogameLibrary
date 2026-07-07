@@ -20,10 +20,10 @@ namespace MonogameLibrary
         /// Create a core instance
         /// </summary>
         /// <param name="title">Game window title</param>
-        /// <param name="width">Default game window width</param>
-        /// <param name="height">Default game window height</param>
-        /// <param name="fullscreen">Determines if game window opens in fullscreen</param>
-        public Core(string title, int width, int height, bool fullscreen)
+        /// <param name="windowWidth">Default game window width</param>
+        /// <param name="windowHeight">Default game window height</param>
+        /// <param name="isFullscreen">Determines if game window opens in fullscreen</param>
+        public Core(string title, int windowWidth, int windowHeight, bool isFullscreen)
         {
             // Ensure that multiple cores are not created
             if (_self != null)
@@ -37,9 +37,9 @@ namespace MonogameLibrary
             Graphics = new GraphicsDeviceManager(this);
 
             // Set graphics defaults 
-            Graphics.PreferredBackBufferWidth = width;
-            Graphics.PreferredBackBufferHeight = height;
-            Graphics.IsFullScreen = fullscreen;
+            Graphics.PreferredBackBufferWidth = windowWidth;
+            Graphics.PreferredBackBufferHeight = windowHeight;
+            Graphics.IsFullScreen = isFullscreen;
             Graphics.ApplyChanges();
 
             // Set window info

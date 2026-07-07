@@ -3,7 +3,7 @@
 namespace MonogameLibrary.Entities
 {
     /// <summary>
-    /// Represents an object in the game world
+    /// An object in the game world with a position and bounding box
     /// </summary>
     public abstract class Entity
     {
@@ -18,28 +18,30 @@ namespace MonogameLibrary.Entities
 
         public Point Size => new Point(Width, Height);
 
+
         public bool Enabled { get; set; } = true;
 
 
-        public RectF Bounds
+        public Rectangle Bounds
         {
             get
             {
-                return new RectF(Position, new Vector2(Size.X, Size.Y));
+                return new Rectangle((int)Position.X, (int)Position.Y, Size.X, Size.Y);
             }
         }
 
 
         /// <summary>
-        /// Creates a new game object
+        /// Create a new entity
         /// </summary>
         public Entity()
         {
             Position = Vector2.Zero;
         }
 
+
         /// <summary>
-        /// Creates a new game object at specified position
+        /// Creates a new entity at specified position
         /// </summary>
         /// <param name="position">World position to create entity</param>
         public Entity(Vector2 position)
@@ -47,8 +49,9 @@ namespace MonogameLibrary.Entities
             Position = position;
         }
 
+
         /// <summary>
-        /// Creates a new game object with specified position and size
+        /// Creates a new enitity with specified position and size
         /// </summary>
         /// <param name="position">World position</param>
         /// <param name="width">Width in pixels</param>

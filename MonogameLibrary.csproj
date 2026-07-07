@@ -7,8 +7,11 @@
 
 	<ItemGroup>
 	  <Compile Remove="Graphics\NewFolder\**" />
+	  <Compile Remove="Tilemaps\TilemapObjects\**" />
 	  <EmbeddedResource Remove="Graphics\NewFolder\**" />
+	  <EmbeddedResource Remove="Tilemaps\TilemapObjects\**" />
 	  <None Remove="Graphics\NewFolder\**" />
+	  <None Remove="Tilemaps\TilemapObjects\**" />
 	</ItemGroup>
 
 	<ItemGroup>
