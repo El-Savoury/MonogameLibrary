@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonogameLibrary.Utilities;
+using System.ComponentModel;
 
 namespace MonogameLibrary.Screens
 {
@@ -13,7 +14,18 @@ namespace MonogameLibrary.Screens
         private List<Screen> _screens;
         private Dictionary<string, Screen> _screenTypes;
 
-        public Screen ActiveScreen => _screens.Last();
+        public Screen CurrentScreen
+        {
+            get
+            {
+                if (_screens.Count > 0) 
+                {
+                    return _screens.Last();
+                }
+
+                return null;
+            }
+        }
 
         #endregion rMembers
 
@@ -39,7 +51,7 @@ namespace MonogameLibrary.Screens
         /// </summary>
         /// <param name="screenName"></param>
         /// <param name="screen"></param>
-        private void RegisterScreen(string screenName, Screen screen)
+        public void RegisterScreen(string screenName, Screen screen)
         {
             _screenTypes.Add(screenName, screen);
         }
@@ -74,7 +86,7 @@ namespace MonogameLibrary.Screens
         /// <param name="gameTime"></param>
         public void UpdateScreens(GameTime gameTime)
         {
-            ActiveScreen.Update(gameTime);
+            CurrentScreen.Update(gameTime);
 
             for (int x = _screens.Count - 1; x >= 0; x--)
             {
@@ -104,7 +116,7 @@ namespace MonogameLibrary.Screens
         /// <param name="spriteBatch"></param>
         public void DrawScreens(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-            ActiveScreen.DrawToRenderTarget(graphicsDevice, spriteBatch);
+            CurrentScreen.DrawToRenderTarget(graphicsDevice, spriteBatch);
 
             for (int x = _screens.Count - 1; x >= 0; x--)
             {
@@ -182,8 +194,8 @@ namespace MonogameLibrary.Screens
                 screen.OnActivate();
 
                 // Remove existing screen
-                _screens.Remove(ActiveScreen);
-                ActiveScreen.OnDeactivate();
+                _screens.Remove(CurrentScreen);
+                CurrentScreen.OnDeactivate();
             }
         }
 

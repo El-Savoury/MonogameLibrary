@@ -7,14 +7,12 @@
     {
         #region rMembers
 
-        protected GraphicsDeviceManager _graphics;
-        protected RenderTarget2D _screenTarget;
+        protected RenderTarget2D _renderTarget;
 
         public int Width { get; }
         public int Height { get; }
         public Vector2 Position { get; set; }
         public Rectangle Bounds => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
-        public Point Center => new Point((int)(Position.X + Width * 0.5f), (int)(Position.Y + Height * 0.5f));
 
         public bool IsUpdateWhenInactive { get; set; }
         public bool IsVisibleWhenInactive { get; set; }
@@ -26,7 +24,8 @@
 
 
 
-        #region rInitialisation
+        #region rInit
+
         /// <summary>
         /// 
         /// </summary>
@@ -37,8 +36,7 @@
         {
             Width = width;
             Height = height;
-            _graphics = graphics;
-            _screenTarget = new RenderTarget2D(graphics.GraphicsDevice, width, height);
+            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, width, height);
         }
 
 
@@ -59,7 +57,7 @@
         /// </summary>
         public virtual void OnDeactivate() { }
 
-        #endregion rInitialisation
+        #endregion rInit
 
 
 
@@ -90,6 +88,6 @@
         /// <returns></returns>
         public abstract RenderTarget2D DrawToRenderTarget(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch);
 
-        #endregion rDraw
+        #endregion rDraw          
     }
 }

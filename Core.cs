@@ -1,5 +1,7 @@
-﻿using MonogameLibrary.Assets;
+﻿using Microsoft.Xna.Framework.Graphics;
+using MonogameLibrary.Assets;
 using MonogameLibrary.Input;
+using MonogameLibrary.Screens;
 
 namespace MonogameLibrary
 {
@@ -53,21 +55,44 @@ namespace MonogameLibrary
 
         protected override void Initialize()
         {
-            base.Initialize();
-
             InputManager.I.Init();
             AssetManager.I.Init(Content);
 
             GraphicsDevice = base.GraphicsDevice;
             SpriteBatch = new SpriteBatch(GraphicsDevice);
+
+            base.Initialize();
         }
 
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             InputManager.I.Update(gameTime);
+
+            base.Update(gameTime);
+        }
+
+
+        protected virtual Rectangle CalcRenderDestination(int renderTargetWidth, int renderTargetHeight)
+        {
+            Rectangle destinationRect = new Rectangle();
+
+            int windowWidth = GraphicsDevice.Viewport.Width;
+            int windowHeight = GraphicsDevice.Viewport.Height;
+
+            float scaleX = windowWidth / renderTargetWidth;
+            float scaleY = windowHeight / renderTargetHeight;
+            float scale = Math.Max(scaleX, scaleY);
+
+            destinationRect.Width = (int)(renderTargetWidth * scale);
+            destinationRect.Height = (int)(renderTargetHeight * scale);
+            if (destinationRect.Width < renderTargetWidth) destinationRect.Width = renderTargetWidth;
+            if (destinationRect.Height < renderTargetHeight) destinationRect.Height = renderTargetHeight;
+
+            destinationRect.X = (windowWidth - destinationRect.Width) / 2;
+            destinationRect.Y = (windowHeight - destinationRect.Height) / 2;
+
+            return destinationRect;
         }
     }
 }

@@ -49,16 +49,14 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         /// <param name="tileset">The tileset we want to use in this tilemap</param>
         /// <param name="position">The top left position of the tilemap</param>
-        /// <param name="tileWidth">The width in pixels of a tile in this tilemap</param>
-        /// <param name="tileHeight">The height in pixels of a tile in this tilemap</param>
         /// <param name="columns">The number of columns of tiles in the tilemap</param>
         /// <param name="rows">The number of rows of tiles in the tilemap</param>
-        public Tilemap(Tileset tileset, Vector2 position, int tileWidth, int tileHeight, int columns, int rows)
+        public Tilemap(Tileset tileset, Vector2 position, int columns, int rows)
         {
             Tileset = tileset;
             Position = position;
-            TileWidth = tileWidth;
-            TileHeight = tileHeight;
+            TileWidth = tileset.TileWidth;
+            TileHeight = tileset.TileHeight;
             Columns = columns;
             Rows = rows;
 
