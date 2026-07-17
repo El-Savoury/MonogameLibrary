@@ -1,7 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using MonogameLibrary.Assets;
+﻿using MonogameLibrary.Assets;
 using MonogameLibrary.Input;
-using MonogameLibrary.Screens;
 
 namespace MonogameLibrary
 {

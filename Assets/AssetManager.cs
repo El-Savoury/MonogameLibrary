@@ -83,7 +83,7 @@ namespace MonogameLibrary.Assets
         public void RemoveFont(string name)
         {
             _fonts.Remove(name);
-        }
+        }                
 
         #endregion Fonts
     }

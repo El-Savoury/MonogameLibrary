@@ -1,6 +1,7 @@
 ﻿using MonogameLibrary.Maths;
+using MonogameLibrary.Utilities;
 
-namespace MonogameLibrary.Utilities
+namespace MonogameLibrary.Graphics
 {
     public class Draw2D : Singleton<Draw2D>
     {

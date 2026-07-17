@@ -1,6 +1,4 @@
-﻿using MonogameLibrary.Utilities;
-
-namespace MonogameLibrary.Graphics
+﻿namespace MonogameLibrary.Graphics
 {
     public class TextureRegion
     {
