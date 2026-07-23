@@ -101,28 +101,28 @@
 
         #region Factory
 
-        /// <summary>
-        /// Create a new sprite using texture region name
-        /// </summary>
-        /// <param name="regionName">Name of texture region</param>
-        /// <returns>New sprite from region with specified name</returns>
-        public Sprite GetSprite(string regionName)
-        {
-            TextureRegion region = _sprites[regionName];
-            return new Sprite(region);
-        }
+        ///// <summary>
+        ///// Create a new sprite using texture region name
+        ///// </summary>
+        ///// <param name="regionName">Name of texture region</param>
+        ///// <returns>New sprite from region with specified name</returns>
+        //public Sprite GetSprite(string regionName)
+        //{
+        //    TextureRegion region = _sprites[regionName];
+        //    return new Sprite(region);
+        //}
 
 
-        /// <summary>
-        /// Create a new sprite using texture region index
-        /// </summary>
-        /// <param name="regionIndex">Regions index in texture atlas</param>
-        /// <returns>New sprite from region at specified index</returns>
-        public Sprite GetSprite(int regionIndex)
-        {
-            TextureRegion region = TextureAtlas.GetRegion(regionIndex);
-            return new Sprite(region);
-        }
+        ///// <summary>
+        ///// Create a new sprite using texture region index
+        ///// </summary>
+        ///// <param name="regionIndex">Regions index in texture atlas</param>
+        ///// <returns>New sprite from region at specified index</returns>
+        //public Sprite GetSprite(int regionIndex)
+        //{
+        //    TextureRegion region = TextureAtlas.GetRegion(regionIndex);
+        //    return new Sprite(region);
+        //}
 
 
         public void AddAnimation(string name, params AnimationFrame[] frames)
