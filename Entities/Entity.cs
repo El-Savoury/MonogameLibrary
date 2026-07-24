@@ -18,8 +18,7 @@ namespace MonogameLibrary.Entities
 
         public Point Size => new Point(Width, Height);
 
-
-        public bool Enabled { get; set; } = true;
+        public bool IsEnabled { get; set; } = true;
 
 
         public Rectangle Bounds
@@ -89,7 +88,7 @@ namespace MonogameLibrary.Entities
         /// </summary>
         public virtual void Destroy()
         {
-            Enabled = false;
+            IsEnabled = false;
         }
     }
 }

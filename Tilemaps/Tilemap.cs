@@ -1,4 +1,6 @@
-﻿using MonogameLibrary.Utilities;
+﻿using MonogameLibrary.Entities;
+using MonogameLibrary.Utilities;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -16,7 +18,8 @@ namespace MonogameLibrary.Tilemaps
         #region Properties
 
         public Tileset Tileset { get; }
-        public Dictionary<string, TilemapLayer> Layers { get; }
+        public Dictionary<string, TilemapLayer> TilemapLayers { get; }
+
         public Vector2 Position { get; set; }
         public int TileWidth { get; }
         public int TileHeight { get; }
@@ -40,7 +43,7 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         public Tilemap()
         {
-            Layers = new Dictionary<string, TilemapLayer>();
+            TilemapLayers = new Dictionary<string, TilemapLayer>();
         }
 
 
@@ -60,7 +63,7 @@ namespace MonogameLibrary.Tilemaps
             Columns = columns;
             Rows = rows;
 
-            Layers = new Dictionary<string, TilemapLayer>();
+            TilemapLayers = new Dictionary<string, TilemapLayer>();
         }
 
 
@@ -113,7 +116,7 @@ namespace MonogameLibrary.Tilemaps
 
         public void Update(GameTime gameTime)
         {
-            foreach (TilemapLayer layer in Layers.Values)
+            foreach (TilemapLayer layer in TilemapLayers.Values)
             {
                 layer.Update(gameTime);
             }
@@ -134,7 +137,7 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TilemapLayer layer in Layers.Values)
+            foreach (TilemapLayer layer in TilemapLayers.Values)
             {
                 layer.Draw(spriteBatch);
             }
@@ -149,31 +152,56 @@ namespace MonogameLibrary.Tilemaps
 
         #region Layers
 
-        /// <summary>
-        /// Add a new layer to the tilemap
-        /// </summary>
-        /// <param name="name"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public void AddLayer(string name)
+        ///// <summary>
+        ///// Add a new layer to the tilemap
+        ///// </summary>
+        ///// <param name="name"></param>
+        ///// <exception cref="ArgumentException"></exception>
+        //public void AddLayer(string name)
+        //{
+        //    if (TilemapLayers.ContainsKey(name))
+        //    {
+        //        throw new ArgumentException($"Tilemap layer with name {name} already exists");
+        //    }
+
+        //    TilemapTileLayer layer = new TilemapTileLayer(name, Position, TileWidth, TileHeight, Columns, Rows, Tileset);
+        //    TilemapLayers.Add(name, layer);
+        //}
+
+
+
+
+        public void AddLayer<T>(string name) where T : TilemapLayer
         {
-            if (Layers.ContainsKey(name))
+            if (TilemapLayers.ContainsKey(name))
             {
                 throw new ArgumentException($"Tilemap layer with name {name} already exists");
             }
 
-            TilemapLayer layer = new TilemapLayer(name, Position, TileWidth, TileHeight, Columns, Rows, Tileset);
-            Layers.Add(name, layer);
+            // TODO: Bit on the jank side maybe improve this at some point
+            Type type = typeof(T);
+
+            if (type == typeof(TilemapTileLayer))
+            {
+                TilemapTileLayer layer = new TilemapTileLayer(name, Position, TileWidth, TileHeight, Columns, Rows, Tileset);
+                TilemapLayers.Add(name, layer);
+            }
+            else if (type == typeof(TilemapEntityLayer))
+            {
+                TilemapEntityLayer layer = new TilemapEntityLayer(name, Position);
+                TilemapLayers.Add(name, layer);
+            }
         }
 
 
-        /// <summary>
-        /// Add a new layer to the tilemap
-        /// </summary>
-        /// <param name="layerEnum">Layer name as defined in an enum of layers</param>
-        public void AddLayer(Enum layerEnum)
-        {
-            AddLayer(layerEnum.ToString());
-        }
+        ///// <summary>
+        ///// Add a new layer to the tilemap
+        ///// </summary>
+        ///// <param name="layerEnum">Layer name as defined in an enum of layers</param>
+        //public void AddLayer(Enum layerEnum)
+        //{
+        //    AddLayer(layerEnum.ToString());
+        //}
 
 
         /// <summary>
@@ -183,7 +211,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns>True if layer is successfully removed</returns>
         public bool RemoveLayer(string name)
         {
-            return Layers.Remove(name);
+            return TilemapLayers.Remove(name);
         }
 
 
@@ -205,7 +233,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns>Layer of specified name if one exists</returns>
         public TilemapLayer GetLayer(string name)
         {
-            return Layers[name];
+            return TilemapLayers[name];
         }
 
 
@@ -217,6 +245,17 @@ namespace MonogameLibrary.Tilemaps
         public TilemapLayer GetLayer(Enum layerEnum)
         {
             return GetLayer(layerEnum.ToString());
+        }
+
+
+        public T GetLayer<T>(string name) where T : TilemapLayer
+        {
+            if (TilemapLayers.TryGetValue(name, out TilemapLayer layer))
+            {
+                return layer as T;
+            }
+
+            return null;
         }
 
         #endregion Layers
@@ -249,7 +288,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns></returns>
         public Tile GetTile(int column, int row, string layer)
         {
-            return Layers[layer].GetTile(column, row);
+            return GetLayer<TilemapTileLayer>(layer).GetTile(column, row);
         }
 
 
@@ -261,7 +300,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns></returns>
         public Tile GetTile(Point index, string layer)
         {
-            return Layers[layer].GetTile(index.X, index.Y);
+            return GetLayer<TilemapTileLayer>(layer).GetTile(index.X, index.Y);
         }
 
 
@@ -273,7 +312,7 @@ namespace MonogameLibrary.Tilemaps
         /// <returns></returns>
         public Tile GetTile(Vector2 worldPos, string layer)
         {
-            return Layers[layer].GetTile(worldPos);
+            return GetLayer<TilemapTileLayer>(layer).GetTile(worldPos);
         }
 
 
@@ -284,9 +323,9 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="tile"></param>
         /// <param name="row"></param>
         /// <param name="column"></param>
-        public void SetTile(Enum tilemapLayer, int tilesetID, int row, int column)
+        public void SetTile(Enum layerEnum, int tilesetID, int row, int column)
         {
-            Layers[tilemapLayer.ToString()].SetTile(row, column, tilesetID);
+            GetLayer<TilemapTileLayer>(layerEnum.ToString()).SetTile(row, column, tilesetID);
         }
 
 
@@ -297,13 +336,33 @@ namespace MonogameLibrary.Tilemaps
         /// <param name="tilesetID"></param>
         /// <param name="column"></param>
         /// <param name="column"></param>
-        public void SetTile(string tilemapLayer, int tilesetID, int column, int row)
+        public void SetTile(string layer, int tilesetID, int column, int row)
         {
-            Layers[tilemapLayer].SetTile(column, row, tilesetID);
+            GetLayer<TilemapTileLayer>(layer).SetTile(column, row, tilesetID);
         }
 
         #endregion Tiles
 
+
+
+
+
+
+        #region TileEntities
+
+        public TileEntity GetTileEntity(Point index, string layer)
+        {
+            TilemapEntityLayer entLayer = GetLayer<TilemapEntityLayer>(layer);
+            return entLayer.GetEntity(index);
+        }
+
+
+        public TileEntity GetTileEntity(int xIndex, int yIndex, string layer)
+        {
+            return GetLayer<TilemapEntityLayer>(layer).GetEntity(xIndex, yIndex);
+        }
+
+        #endregion TileEntities
 
 
 

@@ -44,7 +44,7 @@
         {
             foreach (Entity entity in Entities)
             {
-                if (entity.Enabled)
+                if (entity.IsEnabled)
                 {
                     entity.Update(gameTime);
                 }
@@ -68,7 +68,7 @@
         {
             foreach (Entity entity in Entities)
             {
-                if (entity.Enabled)
+                if (entity.IsEnabled)
                 {
                     entity.Draw(spriteBatch);
                 }
