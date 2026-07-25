@@ -49,6 +49,19 @@ namespace MonogameLibrary.Entities
             return neighbours;
         }
 
+
+        public List<Point> GetCardinalNeighbours()
+        {
+            return new List<Point>
+            {
+              new Point(Index.X, Index.Y - 1), // Up
+              new Point(Index.X + 1, Index.Y), // Right
+              new Point(Index.X, Index.Y + 1), // Down
+              new Point(Index.X - 1, Index.Y), // Left
+            };
+        }
+
+
         public virtual void Draw(SpriteBatch spriteBatch, Point index)
         {
         }

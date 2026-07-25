@@ -31,7 +31,6 @@ namespace MonogameLibrary.Tilemaps
             {
                 if (_entities[i] == entity)
                 {
-                    _entities[i].Destroy();
                     _entities.RemoveAt(i);
                 }
             }
@@ -45,7 +44,7 @@ namespace MonogameLibrary.Tilemaps
                 if (_entities[i].Index == index)
                 {
                     _entities[i].Destroy();
-                    _entities.RemoveAt(i);                    
+                    _entities.RemoveAt(i);
                 }
             }
         }
