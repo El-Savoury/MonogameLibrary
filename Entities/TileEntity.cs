@@ -35,29 +35,30 @@ namespace MonogameLibrary.Entities
         }
 
 
-        public List<Point> GetNeighbours()
-        {
-            List<Point> neighbours = new List<Point>();
-
-            for (int x = -1; x < neighbours.Count; x++)
-            {
-                for (int y = -1; y < 3; y++)
-                {
-                    neighbours.Add(new Point(x, y));
-                }
-            }
-            return neighbours;
-        }
-
-
-        public List<Point> GetCardinalNeighbours()
+        public List<Point> GetNeighbours(Point index)
         {
             return new List<Point>
             {
-              new Point(Index.X, Index.Y - 1), // Up
-              new Point(Index.X + 1, Index.Y), // Right
-              new Point(Index.X, Index.Y + 1), // Down
-              new Point(Index.X - 1, Index.Y), // Left
+              new Point(index.X - 1, index.Y -1), // Top Left  
+              new Point(index.X, index.Y - 1), // Up
+              new Point(index.X + 1, index.Y - 1), // Top right
+              new Point(index.X + 1, index.Y), // Right
+              new Point(index.X + 1, index.Y + 1), // Bottom Right
+              new Point(index.X, index.Y + 1), // Down
+              new Point(index.X - 1, index.Y + 1), // Bottom left
+              new Point(index.X - 1, index.Y), // Left                 
+            };
+        }
+
+
+        public List<Point> GetCardinalNeighbours(Point index)
+        {
+            return new List<Point>
+            {
+              new Point(index.X, index.Y - 1), // Up
+              new Point(index.X + 1, index.Y), // Right
+              new Point(index.X, index.Y + 1), // Down
+              new Point(index.X - 1, index.Y), // Left
             };
         }
 

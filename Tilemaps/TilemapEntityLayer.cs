@@ -54,7 +54,7 @@ namespace MonogameLibrary.Tilemaps
         {
             foreach (TileEntity entity in _entities)
             {
-                if (entity.Index == index)
+                if (entity != null && entity.Index == index)
                 {
                     return entity;
                 }
@@ -73,6 +73,18 @@ namespace MonogameLibrary.Tilemaps
                 }
             }
             return null;
+        }
+
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Entity entity in _entities)
+            {
+                if (entity != null)
+                {
+                    entity.Draw(spriteBatch);
+                }
+            }
         }
     }
 }

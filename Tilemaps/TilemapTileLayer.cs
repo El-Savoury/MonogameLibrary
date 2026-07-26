@@ -68,8 +68,10 @@ namespace MonogameLibrary.Tilemaps
             {
                 for (int y = 0; y < Rows; y++)
                 {
-                    TextureRegion region = Tileset.GetTileTexture(Tiles[x, y].TilesetID);
-                    float rotation = CardinalDirExtension.ToRadians(Tiles[x, y].Rotation);
+                    Tile tile = Tiles[x, y];
+
+                    TextureRegion region = Tileset.GetTileTexture(tile.TilesetID);
+                    float rotation = CardinalDirExtension.ToRadians(tile.Rotation);
 
                     // TODO: Sort out how tiles are drawn relative to their origins for rotation purposes.
 
@@ -78,7 +80,9 @@ namespace MonogameLibrary.Tilemaps
                     Vector2 tilePosition = new Vector2(Position.X + tileOffsetX, Position.Y + tileOffsetY);
                     Vector2 tileOrigin = new Vector2(TileWidth, TileHeight) * 0.5f;
 
-                    region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, rotation, tileOrigin, 1.0f, SpriteEffects.None, 1.0f);
+                    float depth = Tileset.TileTemplates[tile.TilesetID].DrawDepth;
+
+                    region.Draw(spriteBatch, tilePosition + tileOrigin, Color.White, 1.0f, rotation, tileOrigin, 1.0f, SpriteEffects.None, depth);
                 }
             }
         }

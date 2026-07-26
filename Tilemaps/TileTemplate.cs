@@ -20,7 +20,7 @@ namespace MonogameLibrary.Tilemaps
         public CardinalDir Rotation { get; }
         public TileCollision Collision { get; }
         public List<Animation> Animations { get; }
-
+        public float DrawDepth { get; }
 
         public TileTemplate(int tilesetID)
         {

@@ -106,6 +106,7 @@ namespace MonogameLibrary.Tilemaps
 
                             int collision = int.Parse(template.Attribute("collision")?.Value ?? "0");
                             int rotation = int.Parse(template.Attribute("rotation")?.Value ?? "0");
+                            float drawDepth = float.Parse(template.Attribute("drawDepth").Value);
 
                             tileset.AddTileTemplate(id, (TileCollision)collision, (CardinalDir)rotation);
                         }

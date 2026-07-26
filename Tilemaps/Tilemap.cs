@@ -19,7 +19,6 @@ namespace MonogameLibrary.Tilemaps
 
         public Tileset Tileset { get; }
         public Dictionary<string, TilemapLayer> TilemapLayers { get; }
-
         public Vector2 Position { get; set; }
         public int TileWidth { get; }
         public int TileHeight { get; }
