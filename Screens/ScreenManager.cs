@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonogameLibrary.Utilities;
 using System.ComponentModel;
 
@@ -18,7 +19,7 @@ namespace MonogameLibrary.Screens
         {
             get
             {
-                if (_screens.Count > 0) 
+                if (_screens.Count > 0)
                 {
                     return _screens.Last();
                 }
@@ -86,14 +87,10 @@ namespace MonogameLibrary.Screens
         /// <param name="gameTime"></param>
         public void UpdateScreens(GameTime gameTime)
         {
-            CurrentScreen.Update(gameTime);
-
-            for (int x = _screens.Count - 1; x >= 0; x--)
+            for (int i = 0; i < _screens.Count; i++)
             {
-                if (_screens[x].IsUpdateWhenInactive)
-                {
-                    _screens[x].Update(gameTime);
-                }
+                Screen screen = _screens[i];
+                screen.Update(gameTime);
             }
         }
 
@@ -114,20 +111,37 @@ namespace MonogameLibrary.Screens
         /// </remarks>
         /// <param name="graphicsDevice"></param>
         /// <param name="spriteBatch"></param>
-        public void DrawScreens(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        public void DrawScreens(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Rectangle renderDestination)
         {
-            CurrentScreen.DrawToRenderTarget(graphicsDevice, spriteBatch);
-
-            for (int x = _screens.Count - 1; x >= 0; x--)
+            // Draw each screen to it's own render target
+            foreach (Screen screen in _screens)
             {
-                if (_screens[x].IsVisibleWhenInactive)
-                {
-                    _screens[x].DrawToRenderTarget(graphicsDevice, spriteBatch);
-                }
+                graphicsDevice.SetRenderTarget(screen.RenderTarget);
+                graphicsDevice.Clear(Color.Transparent);
+
+                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                screen.Draw(spriteBatch);
+                spriteBatch.End();
             }
+
+            // Reset draw target to back buffer
+            graphicsDevice.SetRenderTarget(null);
+            graphicsDevice.Clear(Color.Black);
+
+            // Draw all screens to backbuffer
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            foreach (Screen screen in _screens)
+            {
+                spriteBatch.Draw(screen.RenderTarget, renderDestination, Color.White);
+            }
+
+            spriteBatch.End();            
         }
 
         #endregion Draw
+
+
 
 
 

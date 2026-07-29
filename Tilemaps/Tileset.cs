@@ -103,12 +103,11 @@ namespace MonogameLibrary.Tilemaps
                             int id = int.Parse(template.Attribute("tilesetID").Value);
 
                             // TODO: Add any other fields to parse here
-
                             int collision = int.Parse(template.Attribute("collision")?.Value ?? "0");
                             int rotation = int.Parse(template.Attribute("rotation")?.Value ?? "0");
-                            float drawDepth = float.Parse(template.Attribute("drawDepth").Value);
+                            float drawDepth = float.Parse(template.Attribute("drawDepth")?.Value);
 
-                            tileset.AddTileTemplate(id, (TileCollision)collision, (CardinalDir)rotation);
+                            tileset.AddTileTemplate(id, (TileCollision)collision, (CardinalDir)rotation, drawDepth);
                         }
                     }
                 }
@@ -124,9 +123,9 @@ namespace MonogameLibrary.Tilemaps
         /// </summary>
         /// <param name="tilesetID"></param>
         /// <param name="collision"></param>
-        public void AddTileTemplate(int tilesetID, TileCollision collision, CardinalDir rotation)
+        public void AddTileTemplate(int tilesetID, TileCollision collision, CardinalDir rotation, float drawDepth)
         {
-            TileTemplate template = new TileTemplate(tilesetID, collision, rotation);
+            TileTemplate template = new TileTemplate(tilesetID, collision, drawDepth, rotation);
             TileTemplates.Add(tilesetID, template);
         }
 

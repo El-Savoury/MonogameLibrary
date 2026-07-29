@@ -139,6 +139,15 @@
 
         #region Utility
 
+        public void PlayOnce()
+        {
+            IsLooping = false;
+
+            int startFrameIndex = IsReversed ? TotalNumOfFrames : 0;
+            Play(startFrameIndex);
+        }
+
+
         /// <summary>
         /// Start playing animation from first frame
         /// </summary>

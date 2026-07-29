@@ -30,11 +30,12 @@ namespace MonogameLibrary.Tilemaps
         }
 
 
-        public TileTemplate(int tilesetID, TileCollision collision, CardinalDir rotation = CardinalDir.Up)
+        public TileTemplate(int tilesetID, TileCollision collision, float drawDepth, CardinalDir rotation = CardinalDir.Up)
         {
             TilesetID = tilesetID;
             Collision = collision;
             Rotation = rotation;
+            DrawDepth = drawDepth;
         }
     }
 }

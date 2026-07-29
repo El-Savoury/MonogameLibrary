@@ -6,16 +6,15 @@
     public abstract class Screen
     {
         #region rMembers
-
-        protected RenderTarget2D _renderTarget;
+        public RenderTarget2D RenderTarget { get; set; }
 
         public int Width { get; }
         public int Height { get; }
         public Vector2 Position { get; set; }
+        public bool IsUpdateWhenInactive { get; set; } = false;
+        public bool IsVisibleWhenInactive { get; set; } = false;
+        public Color BackgroundColour { get; set; } = Color.Transparent;
         public Rectangle Bounds => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
-
-        public bool IsUpdateWhenInactive { get; set; }
-        public bool IsVisibleWhenInactive { get; set; }
 
         #endregion rMembers
 
@@ -36,7 +35,7 @@
         {
             Width = width;
             Height = height;
-            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, width, height);
+            RenderTarget = new RenderTarget2D(graphics.GraphicsDevice, width, height);
         }
 
 
@@ -80,13 +79,16 @@
 
         #region rDraw
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="graphicsDevice"></param>
-        /// <param name="spriteBatch"></param>
-        /// <returns></returns>
-        public abstract RenderTarget2D DrawToRenderTarget(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="graphicsDevice"></param>
+        ///// <param name="spriteBatch"></param>
+        ///// <returns></returns>
+        //public abstract RenderTarget2D DrawToRenderTarget(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch);
+
+        public abstract void Draw(SpriteBatch spriteBatch);
+
 
         #endregion rDraw          
     }
