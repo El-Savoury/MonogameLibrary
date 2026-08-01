@@ -1,4 +1,6 @@
-﻿namespace MonogameLibrary.Screens
+﻿using MonogameLibrary.Graphics;
+
+namespace MonogameLibrary.Screens
 {
     /// <summary>
     /// Designated area for drawing game elements
@@ -7,7 +9,7 @@
     {
         #region rMembers
         public RenderTarget2D RenderTarget { get; set; }
-
+        public SpriteBatchOptions SpriteBatchOptions { get; private set; }
         public int Width { get; }
         public int Height { get; }
         public Vector2 Position { get; set; }
@@ -36,6 +38,7 @@
             Width = width;
             Height = height;
             RenderTarget = new RenderTarget2D(graphics.GraphicsDevice, width, height);
+            SpriteBatchOptions = new SpriteBatchOptions();
         }
 
 
@@ -90,6 +93,31 @@
         public abstract void Draw(SpriteBatch spriteBatch);
 
 
-        #endregion rDraw          
+        /// <summary>
+        /// Start a spritebatch for this screen using specified spritebatch options
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="options"></param>
+        public virtual void BeginSpritebatch(SpriteBatch spriteBatch, SpriteBatchOptions options)
+        {
+            spriteBatch.Begin(options.SortMode,
+                                        options.BlendState,
+                                        options.SamplerState,
+                                        options.DepthStencilState,
+                                        options.RasterizerState);
+        }
+        
+
+        /// <summary>
+        /// End the spritebatch for this screen
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public virtual void EndSpriteBatch(SpriteBatch spriteBatch)
+        {
+            spriteBatch.End();
+        }
+ 
+        #endregion rDraw      
+
     }
 }

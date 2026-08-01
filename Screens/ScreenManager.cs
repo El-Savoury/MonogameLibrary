@@ -90,7 +90,11 @@ namespace MonogameLibrary.Screens
             for (int i = 0; i < _screens.Count; i++)
             {
                 Screen screen = _screens[i];
-                screen.Update(gameTime);
+
+                if (screen.IsUpdateWhenInactive || screen == CurrentScreen)
+                {
+                    screen.Update(gameTime);
+                }
             }
         }
 
@@ -119,24 +123,26 @@ namespace MonogameLibrary.Screens
                 graphicsDevice.SetRenderTarget(screen.RenderTarget);
                 graphicsDevice.Clear(Color.Transparent);
 
-                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 screen.Draw(spriteBatch);
-                spriteBatch.End();
             }
 
             // Reset draw target to back buffer
             graphicsDevice.SetRenderTarget(null);
             graphicsDevice.Clear(Color.Black);
 
+
             // Draw all screens to backbuffer
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             foreach (Screen screen in _screens)
             {
-                spriteBatch.Draw(screen.RenderTarget, renderDestination, Color.White);
+                if (screen.IsVisibleWhenInactive || screen == CurrentScreen)
+                {
+                    spriteBatch.Draw(screen.RenderTarget, renderDestination, Color.White);
+                }
             }
 
-            spriteBatch.End();            
+            spriteBatch.End();
         }
 
         #endregion Draw
